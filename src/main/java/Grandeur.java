@@ -7,41 +7,138 @@ public class Grandeur {
 
     }
 
+
+    /**
+     * Verifier la grandeur du bateau
+     * @param grandeurBateau est la grandeur du bateau, peut etre p, m ou g
+     */
+
+    public static char checkTaille(char grandeurBateau) {
+        boolean estValide;
+
+        //do{
+            estValide = true;
+
+            if (grandeurBateau != 'p' && grandeurBateau != 'm' && grandeurBateau != 'g') {
+
+
+                Pep8.charo('\n');
+                estValide = false;
+            }
+
+            if(!estValide){
+                msgPLacerBateau();
+            }
+
+        //}while(!estValide);
+
+        return grandeurBateau;
+    }
+
+
+
+
+    /**
+     * methode verifiant les caracteristiques d'un bateau
+     * @
+    */
+
+     public static char[] checkSpecificationBateau(char []grandeurBateau){
+         boolean estValide;
+         int i=0;
+         estValide = true;
+
+         if (((grandeurBateau[i] != 'p' && grandeurBateau[i] != 'm' && grandeurBateau[i] != 'g')) &&
+
+            (grandeurBateau[i] != 'h' && grandeurBateau[i]!= 'v') &&
+                 (grandeurBateau[i] < 'A' || grandeurBateau[i] > 'R') &&
+                 ((int) (grandeurBateau[i]) < 1 || (int) (grandeurBateau[i]) > 9)){
+             estValide = false;
+         }
+
+         if (!estValide) {
+             Pep8.stro("les specification du bateau sont incorrectes");
+         }
+
+         return grandeurBateau;
+     }
+
+
+
+    /**
+     * main
+     * @param args
+     */
+
     public static void main(String[] args) {
 
-        char grandeur ='h';
-        char orientation = 'o';
 
+        char taille='x';
+        char orientation='n';
+        char colonne='V';
+        char rangee=4;
+        char lignInput1;
+
+        boolean estValide;
 
         msgPLacerBateau();
-
-        char ligneInput = Pep8.chari();
-
+        Pep8.charo('\n');
 
 
 
-    //while (ligneInput != '\n') {
+            do {
 
-        if (ligneInput == 'g' || ligneInput == 'p') {
+                estValide=true;
 
-            grandeur = ligneInput;
+                /**
+                 boucle arret de lecture de la ligne entree. l'espace entre les char est pris comme condition de continuite de lecture.
+                 */
+
+                /**
+                 * le premier char est la taille
+                 */
+
+                //taille = Pep8.chari();
+
+                //taille = Pep8.chari();
+                //taille = checkTaille(Pep8.chari());
+                //estValide = false;
+                //char taille;
+
+                char []lign = {taille, orientation, colonne, rangee};
+                int i=0;
+                for (i = 0; i < 3; i++) {
+
+                    lign[i] = Pep8.chari();
+                    //lign[i] = checkSpecificationBateau([]lign);
+
+                    //Pep8.stro("the first line of code is supposed to print la taille :" + lign[0]);
+                    Pep8.charo('\n');
+                }
 
 
-        } else {
-            msgPLacerBateau();
-        }
+                taille = checkTaille(lign[i]);
+                orientation = lign[i];
+                colonne = lign[i];
+                rangee = lign[i];
 
-        if(ligneInput =='v' || ligneInput == 'h' ){
-            orientation = ligneInput;
 
-        }else {
-            msgPLacerBateau();
-        }
-   // }
-//mvM2
 
-        Pep8.stro("grandeur du bateau est : " + grandeur);
-        Pep8.stro("orientation du bateau est : " + orientation);
 
+                /**
+                 * le 5eme char est l'espace separant les specifications d'un bateau à l'autre.
+                 */
+                lignInput1 = Pep8.chari();
+
+            } while (lignInput1 == ' ' );  //&& lignInput1 != '\n"
+
+        Pep8.stro("the first line of code is supposed to print la taille :" + taille);
+        Pep8.charo('\n');
+        Pep8.stro("the first line of code is supposed to print la orientation: " + orientation);
+        Pep8.charo('\n');
+        Pep8.stro("the first line of code is supposed to print la colonne :" + colonne);
+        Pep8.charo('\n');
+        Pep8.stro("the first line of code is supposed to print la rangee :" + rangee );
+        Pep8.charo('\n');
     }
 }
