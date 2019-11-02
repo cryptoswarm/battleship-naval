@@ -142,7 +142,7 @@ public class JeuBatailleNavale {
         char orientation='b';
         char  colonne ='A';
         char rangee =1;
-
+        char espace ='!';
 
 
 /**
@@ -209,11 +209,11 @@ public class JeuBatailleNavale {
             //char []bateau = new char[500];
             char []bateau ={taille,orientation,colonne,rangee};
             //char []bateau = new char{};
-            char []tableautaille = new char[10000];
-            char []tableauOrientation = new char[10000];
-            char []tableauColonne = new char[10000];
-            char []tableauRangee = new char[10000];
-            char blabla = Pep8.chari();
+            char []tailleNew = new char[10000];
+            char []orientationNew = new char[10000];
+            char []colonneNew = new char[10000];
+            char []rangeeNew = new char[10000];
+            //char blabla = Pep8.chari();
         //char []ligne = {'a','b','c','d'};
         //char []bateau = {taille,orientation,colonne,rangee};
        //[]bateau = {[]tableautaille,[]tableauOrientation,[]tableauColonne,[]tableauRangee};
@@ -230,55 +230,24 @@ do{
     //for (int i = 0; i <= 3 && bateau[i] != ' '; i++) {
         for (int i = 0; i <= 3 ; i++) {
 
-        //[] = {taille,orientation,colonne,rangee};
 
-        bateau[i] = Pep8.chari();
-        //Pep8.charo(bateau[i]);
+        tailleNew[i] = Pep8.chari();
+
         Pep8.charo('\n');
 
-         if(checkTaille(bateau[i])){
-            taille = bateau[i];
              Pep8.charo('\n');
-             Pep8.stro("la taille de bateau est :"+taille);
+             Pep8.stro("la taille de bateau est :"+tailleNew[i]);
              Pep8.charo('\n');
 
-         }
-         i++;
-
-         if(checkOriontation(bateau[i])){
-             orientation = bateau[i];
-             Pep8.charo('\n');
-             Pep8.stro("l'orientation du bateau est :"+orientation);
-             Pep8.charo('\n');
-         }
-            i++;
-
-         if(checkLetterColonne(bateau[i])){
-             colonne=bateau[i];
-                Pep8.charo('\n');
-                Pep8.stro("la colonne  du bateau est :"+colonne);
-             Pep8.charo('\n');
-            }
-            i++;
-         if(checkNombreRanger(bateau[i])){
-             rangee=bateau[i];
-             Pep8.charo('\n');
-             Pep8.stro("la rangee du bateau est :"+rangee);
-             Pep8.charo('\n');
-         }
-            //i++;
-
-
-        //estValide1=true;
-        //j++;
     }
-    j++;
 
+    espace = Pep8.chari();
 
-//}while(bateau[j]!=' ' && bateau[j]!='\n');
-   }while( bateau[j]!=' ');
+  }while( espace==' ');
 
-
+        Pep8.charo('\n');
+        Pep8.stro("la taille de new bateau est :"+tailleNew[0]);
+        Pep8.charo('\n');
 
         //[]ligne = {taille,orientation,colonne,rangee};
 /**

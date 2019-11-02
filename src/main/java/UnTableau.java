@@ -209,16 +209,21 @@ public class UnTableau {
         char taille;
         char orientation='n';
         char colonne;
+        int colonneConvertis;
         char rangee;
+        int rangeeConvertis;
         char lignInput1 = 'x';
         char charQuitter='y';
+        boolean temporary =false;
 
-        int rangeeInitiale;
-        int colonneInitiale;
+        int rangeeInitiale=0;
+        int colonneInitiale=0;
 
-        char situationInitiale[][] = new char [9][18];
+        char [][] situationInitiale = new char [9][18];
 
-        //char situationInitiale[rangeeInitiale][colonneInitiale] = tild();
+        char [][] positionDesBateau = new char [9][18];
+
+       // situationInitiale[rangeeInitiale][colonneInitiale] = tild();
 
 
         msgBienvenue();
@@ -239,27 +244,22 @@ public class UnTableau {
             Pep8.charo('\n');
         }
 
-        //msgPLacerBateau();
+
 
 
 
 
         do{ /** boucle pour arreter le programme quand on pese sur la touche entrer
            */
-            do{
+           do{
+               Pep8.charo('\n');
             msgPLacerBateau();
 
             Pep8.charo('\n');
 
-                estValide = true;
+            estValide = true;
+
             do {
-
-
-                   // do{
-
-
-                // do {
-                //
 
                 /**
                  boucle arret de lecture de la ligne entree. l'espace entre les char est pris comme condition de continuite de lecture.
@@ -269,31 +269,27 @@ public class UnTableau {
                  * le premier char est la taille
                  */
 
-                //taille = Pep8.chari();
+
 
                 taille = Pep8.chari();
                 if(!checkTaille(taille)){
                     estValide=false;
-                    //msgPLacerBateau();
-                }
-                //taille = checkTaille(Pep8.chari());
-                //estValide = false;
 
-                //estValide = false;
-                //Pep8.stro("taille des bateaux est :" + taille);  // il prend le premier caractere
+                }
+
                 Pep8.charo('\n');
 
 
                 /**
                  * le deuxiem char est l'orientation du bateau
                  */
-                //orientation = checkOriontation(Pep8.chari());
+
                 orientation = Pep8.chari();
                 if(!checkOriontation(orientation)){
                     estValide=false;
-                    //msgPLacerBateau();
+
                 }
-                //Pep8.stro("l'orientation des bateaus est   :" + orientation); // il prend le 2eme char
+
                 Pep8.charo('\n');
 
                 /**
@@ -303,16 +299,15 @@ public class UnTableau {
                 colonne = Pep8.chari();
                 if(!checkLetterColonne(colonne)){
                     estValide=false;
-                    //msgPLacerBateau();
+
                 }
-                //colonne = checkLetterColonne(Pep8.chari());
-                //Pep8.stro("colonne est :" + colonne);
+
                 Pep8.charo('\n');
 
                 /**
                  * le 4eme char est la rangee
                  */
-                //rangee = checkNombreRanger(Pep8.chari());
+
                 rangee = Pep8.chari();
 
                 if(!checkNombreRanger(rangee)){
@@ -320,14 +315,13 @@ public class UnTableau {
                    //msgPLacerBateau();
                 }
 
-                //Pep8.stro("rangee du bateau est  :" + rangee);
+
                 Pep8.charo('\n');
 
 
                 /**
                  * Le corps du jeu, englobant l'affichat du tableau mise a jour et l'affichage des bateaux aneantis
-
-
+                 */
 
                 Pep8.stro("the first line of code is supposed to print la taille :" + taille);
                 Pep8.charo('\n');
@@ -335,9 +329,172 @@ public class UnTableau {
                 Pep8.charo('\n');
                 Pep8.stro("the second line of code is supposed to print la colonne  :" + colonne);
                 Pep8.charo('\n');
+
+                colonneConvertis = (int) colonne - 65;
+
+                Pep8.stro("la colonne  de position bateau est " + colonneConvertis);
+                Pep8.charo('\n');
                 Pep8.stro("the second line of code is supposed to print la rangee  :" + rangee);
                 Pep8.charo('\n');
+                rangeeConvertis = (int) (rangee) - 48;
+                Pep8.stro("indice de rangee apres convertion =" + rangeeConvertis);
+
+                Pep8.charo('\n');
+
+
+                /**
+                 * Affichage de l'espace de jeu mis à jour
                  */
+
+
+                afficherLetters();
+                Pep8.charo('\n');
+
+                //for (rangeePositionBateau = 0; rangeePositionBateau < positionBateau.length; rangeePositionBateau++) {
+                //for (colonnePositionBateauFinal = 0; colonnePositionBateauFinal < positionBateau[rangeePositionBateau].length; colonnePositionBateauFinal++) {
+
+
+                for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
+                    Pep8.deco(rangeeInitiale + 1);
+                    Pep8.charo('|');
+                    for (colonneInitiale = 0; colonneInitiale< positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
+
+
+                        //for (rangeeInitiale = 0; rangeeInitiale < situationInitiale.length; rangeeInitiale++) {
+                        //Pep8.deco(rangeeInitiale + 1);
+                        //Pep8.charo('|');
+
+                        // for (colonneInitiale = 0; colonneInitiale < situationInitiale[rangeeInitiale].length; colonneInitiale++) {
+                        //Pep8.charo(situationInitiale[rangeeInitiale][colonneInitiale]);
+
+                        //Pep8.stro("resultat de impression 1 est : "+situationInitiale[rangeePositionBateau][colonnePositionBateauFinal]);
+                        // Pep8.stro("resultat de impression 2 est : "+situationInitiale[rangeeInitiale][colonneInitiale-1]);
+                        //if (situationInitiale[rangeeInitiale][colonneInitiale] == situationInitiale[rangeePositionBateau][colonnePositionBateauFinal]) {
+
+                        //(rangeePositionBateau-1)
+                        //indiceDeRangeeFinal
+                        //colonnePositionBateauFinal
+                        //if (rangeeInitiale == 8 && colonneInitiale ==10 ) {
+
+                        /**
+                         * quand la cordonnees du bateau initiale egale la coordonnees du position entré
+                         * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
+                         * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
+                         */
+
+                        // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                        //if (rangeeInitiale == (rangeeConvertis) && (colonneInitiale == colonneConvertis)) {
+                        // if ((situationInitiale[rangeeInitiale][colonneInitiale]) == (positionDesBateau[rangeeConvertis - 1][colonneConvertis])) {
+
+                        if  (taille=='g') {
+
+
+                            if (orientation == 'h') {
+
+
+                                for (int i = 0; i < 5; i++) {
+                                    if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+
+
+
+                                        Pep8.charo(positionDesBateau[rangeeConvertis-1][colonneConvertis + i] = '>');
+
+                                        Pep8.charo(' ');
+                                        estValide=false;
+                                    }
+                                }
+                            } else if (orientation == 'v') {
+
+                                for (int i = 0; i < 5; i++) {
+
+                                    if (rangeeInitiale== (rangeeConvertis-1+i) && (colonneInitiale == colonneConvertis)) {
+
+                                        Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
+
+                                        Pep8.charo(' ');
+                                        estValide =false;
+                                    }
+
+                                }
+                            }
+
+
+
+                        }else if(taille=='m'){
+
+                            if (orientation =='h'){
+
+                                for (int i = 0; i < 3; i++) {
+
+                                    if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                        Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+
+
+                                        Pep8.charo(' ');
+                                        estValide = false;
+                                    }
+                                }
+
+
+                            }else if(orientation == 'v') {
+
+
+
+
+                                for (int i = 0; i < 3; i++) {
+
+                                    if (rangeeInitiale == (rangeeConvertis - 1+i) && (colonneInitiale == colonneConvertis)) {
+
+                                        Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
+
+                                        Pep8.charo(' ');
+                                        estValide = false;
+                                    }
+                                }
+
+                            }
+
+
+
+                        }else if (taille =='p') {
+
+                            if (orientation == 'h') {
+
+
+                                for (int i = 0; i < 1; i++) {
+                                    if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                        Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+                                        Pep8.charo(' ');
+                                        estValide = false;
+                                    }
+                                }
+                            }
+
+
+                        } else if (orientation == 'v') {
+
+                            for (int i = 0; i < 1; i++) {
+                                if (rangeeInitiale == (rangeeConvertis - 1+i) && (colonneInitiale == colonneConvertis)) {
+                                    Pep8.charo(positionDesBateau[rangeeConvertis - 1+i][colonneConvertis] = 'v');
+                                    Pep8.charo(' ');
+                                    estValide=false;
+                                }
+                            }
+
+                        }
+
+                        tild();
+                        Pep8.charo(' ');
+
+                    }
+                    Pep8.charo('|');
+                    Pep8.charo('\n');
+                }
+
+
+
+
+
 
 
 
@@ -365,13 +522,13 @@ public class UnTableau {
 
 
 
-            }while(!estValide);
+
+           }while(!estValide);
             /**
              * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
              */
             msgQuitter();
             charQuitter = Pep8.chari();
-         //} while (lignInput != '\n' && !estValide);
         } while (charQuitter == '\n');
 
     }
