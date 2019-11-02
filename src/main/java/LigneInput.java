@@ -205,12 +205,13 @@ public class LigneInput {
 
 
         char lignInput = 'x';
-        boolean estValide=false;
-        char taille;
+        boolean estValide;
+        boolean temporary=true;
+        char taille='x';
         char orientation='n';
-        char colonne;
+        char colonne='v';
         int colonneConvertis;
-        char rangee;
+        char rangee='x';
         int rangeeConvertis;
         char lignInput1 = 'x';
         char charQuitter='y';
@@ -224,7 +225,7 @@ public class LigneInput {
 
         char [][] positionDesBateau = new char [rangeeInitiale][colonneInitiale];
 
-         //situationInitiale[rangeeInitiale][colonneInitiale] = tild();
+
 
 
         msgBienvenue();
@@ -238,7 +239,6 @@ public class LigneInput {
             Pep8.charo('|');
 
             for (colonneInitiale = 0; colonneInitiale < (situationInitiale[rangeeInitiale].length); colonneInitiale++) {
-                //Pep8.charo(situationInitiale[rangeeInitiale][colonneInitiale]);
                 tild();
                 Pep8.charo(' ');
             }
@@ -260,6 +260,7 @@ public class LigneInput {
                 Pep8.charo('\n');
 
                 estValide = true;
+                //temporary=true;
 
                 do {
 
@@ -272,53 +273,60 @@ public class LigneInput {
                      */
 
 
+                        //if(estValide) {
+                         taille = Pep8.chari();
+                         if (!checkTaille(taille)) {
+                         estValide = false;
+                         // temporary=false;
 
-                    taille = Pep8.chari();
-                    if(!checkTaille(taille)){
-                        estValide=false;
+                         }
 
-                    }
-
-                    Pep8.charo('\n');
-
-
-                    /**
-                     * le deuxiem char est l'orientation du bateau
-                     */
-
-                    orientation = Pep8.chari();
-                    if(!checkOriontation(orientation)){
-                        estValide=false;
-
-                    }
-
-                    Pep8.charo('\n');
-
-                    /**
-                     * le 3eme char est la colonne
-                     */
-
-                    colonne = Pep8.chari();
-                    if(!checkLetterColonne(colonne)){
-                        estValide=false;
-
-                    }
-
-                    Pep8.charo('\n');
-
-                    /**
-                     * le 4eme char est la rangee
-                     */
-
-                    rangee = Pep8.chari();
-
-                    if(!checkNombreRanger(rangee)){
-                        estValide=false;
-                        //msgPLacerBateau();
-                    }
+                         Pep8.charo('\n');
 
 
-                    Pep8.charo('\n');
+                        /**
+                         * * le deuxiem char est l'orientation du bateau
+                         * */
+
+                        orientation = Pep8.chari();
+                        if (!checkOriontation(orientation)) {
+                            estValide = false;
+                            //temporary=false;
+
+                        }
+
+                        Pep8.charo('\n');
+
+                        /**
+                         * le 3eme char est la colonne
+                         */
+
+                        colonne = Pep8.chari();
+                        if (!checkLetterColonne(colonne)) {
+                            estValide = false;
+                            // temporary=false;
+
+                        }
+
+                        Pep8.charo('\n');
+
+                        /**
+                         * le 4eme char est la rangee
+                         */
+
+                        rangee = Pep8.chari();
+
+                        if (!checkNombreRanger(rangee)) {
+                            estValide = false;
+                            //temporary=false;
+
+                        }
+
+
+                        Pep8.charo('\n');
+                        //}else{
+                         //msgPLacerBateau();
+                        // }
 
 
                     /**
@@ -347,151 +355,151 @@ public class LigneInput {
                     /**
                      * Affichage de l'espace de jeu mis à jour
                      */
-                  //  if(estValide) {
+                 // if(temporary) {
 
-                        afficherLetters();
-                        Pep8.charo('\n');
+                      afficherLetters();
+                      Pep8.charo('\n');
 
-                        for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                        Pep8.deco(rangeeInitiale + 1);
-                        Pep8.charo('|');
-                        for (colonneInitiale = 0; colonneInitiale< positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-
-
-                        //for (rangeeInitiale = 0; rangeeInitiale < situationInitiale.length; rangeeInitiale++) {
-                            //Pep8.deco(rangeeInitiale + 1);
-                            //Pep8.charo('|');
-
-                           // for (colonneInitiale = 0; colonneInitiale < situationInitiale[rangeeInitiale].length; colonneInitiale++) {
-                                //Pep8.charo(situationInitiale[rangeeInitiale][colonneInitiale]);
-
-                                //Pep8.stro("resultat de impression 1 est : "+situationInitiale[rangeePositionBateau][colonnePositionBateauFinal]);
-                                // Pep8.stro("resultat de impression 2 est : "+situationInitiale[rangeeInitiale][colonneInitiale-1]);
-                                //if (situationInitiale[rangeeInitiale][colonneInitiale] == situationInitiale[rangeePositionBateau][colonnePositionBateauFinal]) {
-
-                                //(rangeePositionBateau-1)
-                                //indiceDeRangeeFinal
-                                //colonnePositionBateauFinal
-                                //if (rangeeInitiale == 8 && colonneInitiale ==10 ) {
-
-                                /**
-                                 * quand la cordonnees du bateau initiale egale la coordonnees du position entré
-                                 * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
-                                 * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
-                                 */
-
-                               // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                    //if (rangeeInitiale == (rangeeConvertis) && (colonneInitiale == colonneConvertis)) {
-                           // if ((situationInitiale[rangeeInitiale][colonneInitiale]) == (positionDesBateau[rangeeConvertis - 1][colonneConvertis])) {
-
-                                    if  (taille=='g') {
+                      for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
+                          Pep8.deco(rangeeInitiale + 1);
+                          Pep8.charo('|');
+                          for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
 
 
-                                        if (orientation == 'h') {
+                              //for (rangeeInitiale = 0; rangeeInitiale < situationInitiale.length; rangeeInitiale++) {
+                              //Pep8.deco(rangeeInitiale + 1);
+                              //Pep8.charo('|');
+
+                              // for (colonneInitiale = 0; colonneInitiale < situationInitiale[rangeeInitiale].length; colonneInitiale++) {
+                              //Pep8.charo(situationInitiale[rangeeInitiale][colonneInitiale]);
+
+                              //Pep8.stro("resultat de impression 1 est : "+situationInitiale[rangeePositionBateau][colonnePositionBateauFinal]);
+                              // Pep8.stro("resultat de impression 2 est : "+situationInitiale[rangeeInitiale][colonneInitiale-1]);
+                              //if (situationInitiale[rangeeInitiale][colonneInitiale] == situationInitiale[rangeePositionBateau][colonnePositionBateauFinal]) {
+
+                              //(rangeePositionBateau-1)
+                              //indiceDeRangeeFinal
+                              //colonnePositionBateauFinal
+                              //if (rangeeInitiale == 8 && colonneInitiale ==10 ) {
+
+                              /**
+                               * quand la cordonnees du bateau initiale egale la coordonnees du position entré
+                               * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
+                               * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
+                               */
+
+                              // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                              //if (rangeeInitiale == (rangeeConvertis) && (colonneInitiale == colonneConvertis)) {
+                              // if ((situationInitiale[rangeeInitiale][colonneInitiale]) == (positionDesBateau[rangeeConvertis - 1][colonneConvertis])) {
+
+                              if (taille == 'g') {
 
 
-                                            for (int i = 0; i < 5; i++) {
-                                            if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                  if (orientation == 'h') {
+
+
+                                      for (int i = 0; i < 5; i++) {
+                                          if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+
+
+                                              Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+
+                                              Pep8.charo(' ');
+                                              temporary = false;
+                                          }
+                                      }
+                                  } else if (orientation == 'v') {
+
+                                      for (int i = 0; i < 5; i++) {
+
+                                          if (rangeeInitiale == (rangeeConvertis - 1 + i) && (colonneInitiale == colonneConvertis)) {
+
+                                              Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
+
+                                              Pep8.charo(' ');
+                                              temporary = false;
+                                          }
+
+                                      }
+                                  }
+
+
+                              } else if (taille == 'm') {
+
+                                  if (orientation == 'h') {
+
+                                      for (int i = 0; i < 3; i++) {
+
+                                          if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                              Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+
+
+                                              Pep8.charo(' ');
+                                              temporary = false;
+                                          }
+                                      }
+
+
+                                  } else if (orientation == 'v') {
+
+
+                                      for (int i = 0; i < 3; i++) {
+
+                                          if (rangeeInitiale == (rangeeConvertis - 1 + i) && (colonneInitiale == colonneConvertis)) {
+
+                                              Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
+
+                                              Pep8.charo(' ');
+                                              temporary = false;
+                                          }
+                                      }
+
+                                  }
+
+
+                              } else if (taille == 'p') {
+
+                                  if (orientation == 'h') {
+
+
+                                      for (int i = 0; i < 1; i++) {
+                                          if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                              Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+                                              Pep8.charo(' ');
+                                              temporary = false;
+                                          }
+                                      }
+                                  }
+
+
+                              } else if (orientation == 'v') {
+
+                                  for (int i = 0; i < 1; i++) {
+                                      if (rangeeInitiale == (rangeeConvertis - 1 + i) && (colonneInitiale == colonneConvertis)) {
+                                          Pep8.charo(positionDesBateau[rangeeConvertis - 1 + i][colonneConvertis] = 'v');
+                                          Pep8.charo(' ');
+                                          temporary = false;
+                                      }
+                                  }
+
+                              }
+
+                                          tild();
+                                          Pep8.charo(' ');
 
 
 
-                                                    Pep8.charo(positionDesBateau[rangeeConvertis-1][colonneConvertis + i] = '>');
-
-                                                    Pep8.charo(' ');
-                                                    estValide=false;
-                                                }
-                                            }
-                                        } else if (orientation == 'v') {
-
-                                              for (int i = 0; i < 5; i++) {
-
-                                                      if (rangeeInitiale== (rangeeConvertis-1+i) && (colonneInitiale == colonneConvertis)) {
-
-                                                          Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
-
-                                                    Pep8.charo(' ');
-                                                    estValide =false;
-                                                }
-
-                                            }
-                                        }
-
-
-
-                                    }else if(taille=='m'){
-
-                                        if (orientation =='h'){
-
-                                            for (int i = 0; i < 3; i++) {
-
-                                                    if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                                        Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
-
-
-                                                Pep8.charo(' ');
-                                                    estValide = false;
-                                                    }
-                                            }
-
-
-                                        }else if(orientation == 'v') {
-
-
-
-
-                                            for (int i = 0; i < 3; i++) {
-
-                                                if (rangeeInitiale == (rangeeConvertis - 1+i) && (colonneInitiale == colonneConvertis)) {
-
-                                                    Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
-
-                                                    Pep8.charo(' ');
-                                                    estValide = false;
-                                                }
-                                            }
-
-                                        }
-
-
-
-                                        }else if (taille =='p') {
-
-                                            if (orientation == 'h') {
-
-
-                                                for (int i = 0; i < 1; i++) {
-                                                    if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                                        Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
-                                                        Pep8.charo(' ');
-                                                        estValide = false;
-                                                    }
-                                                }
-                                            }
-
-
-                                            } else if (orientation == 'v') {
-
-                                                for (int i = 0; i < 1; i++) {
-                                                if (rangeeInitiale == (rangeeConvertis - 1+i) && (colonneInitiale == colonneConvertis)) {
-                                                Pep8.charo(positionDesBateau[rangeeConvertis - 1+i][colonneConvertis] = 'v');
-                                                Pep8.charo(' ');
-                                                estValide=false;
-                                                 }
-                                            }
-
-                                    }
-
-                                    tild();
-                                   Pep8.charo(' ');
-
-                            }
-                            Pep8.charo('|');
-                            Pep8.charo('\n');
-                        }
+                          }
 
 
 
 
+                          Pep8.charo('|');
+                          Pep8.charo('\n');
+                      }
+
+
+                 // }
 
 
 
@@ -511,7 +519,7 @@ public class LigneInput {
                      */
                     lignInput1 = Pep8.chari();
 
-                } while (lignInput1 == ' ');  //&& lignInput1 != '\n"
+                } while (lignInput1 == ' ');
 
 
 
@@ -528,7 +536,6 @@ public class LigneInput {
              */
             msgQuitter();
             charQuitter = Pep8.chari();
-            //} while (lignInput != '\n' && !estValide);
         } while (charQuitter == '\n');
 
     }

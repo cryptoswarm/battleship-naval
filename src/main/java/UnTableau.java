@@ -214,7 +214,7 @@ public class UnTableau {
         int rangeeConvertis;
         char lignInput1 = 'x';
         char charQuitter='y';
-        boolean temporary =false;
+        boolean temporary;
 
         int rangeeInitiale=0;
         int colonneInitiale=0;
@@ -251,8 +251,10 @@ public class UnTableau {
 
         do{ /** boucle pour arreter le programme quand on pese sur la touche entrer
            */
+
            do{
-               Pep8.charo('\n');
+
+            Pep8.charo('\n');
             msgPLacerBateau();
 
             Pep8.charo('\n');
@@ -312,7 +314,7 @@ public class UnTableau {
 
                 if(!checkNombreRanger(rangee)){
                     estValide=false;
-                   //msgPLacerBateau();
+
                 }
 
 
@@ -347,12 +349,14 @@ public class UnTableau {
                  */
 
 
-                afficherLetters();
-                Pep8.charo('\n');
+
 
                 //for (rangeePositionBateau = 0; rangeePositionBateau < positionBateau.length; rangeePositionBateau++) {
                 //for (colonnePositionBateauFinal = 0; colonnePositionBateauFinal < positionBateau[rangeePositionBateau].length; colonnePositionBateauFinal++) {
 
+
+                afficherLetters();
+                Pep8.charo('\n');
 
                 for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
                     Pep8.deco(rangeeInitiale + 1);
@@ -400,7 +404,7 @@ public class UnTableau {
                                         Pep8.charo(positionDesBateau[rangeeConvertis-1][colonneConvertis + i] = '>');
 
                                         Pep8.charo(' ');
-                                        estValide=false;
+                                        temporary=false;
                                     }
                                 }
                             } else if (orientation == 'v') {
@@ -412,7 +416,7 @@ public class UnTableau {
                                         Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
 
                                         Pep8.charo(' ');
-                                        estValide =false;
+                                        //temporary=false;
                                     }
 
                                 }
@@ -431,7 +435,7 @@ public class UnTableau {
 
 
                                         Pep8.charo(' ');
-                                        estValide = false;
+                                        temporary=false;
                                     }
                                 }
 
@@ -448,7 +452,7 @@ public class UnTableau {
                                         Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
 
                                         Pep8.charo(' ');
-                                        estValide = false;
+                                        temporary=false;
                                     }
                                 }
 
@@ -465,7 +469,7 @@ public class UnTableau {
                                     if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
                                         Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
                                         Pep8.charo(' ');
-                                        estValide = false;
+                                        temporary=false;
                                     }
                                 }
                             }
@@ -477,36 +481,23 @@ public class UnTableau {
                                 if (rangeeInitiale == (rangeeConvertis - 1+i) && (colonneInitiale == colonneConvertis)) {
                                     Pep8.charo(positionDesBateau[rangeeConvertis - 1+i][colonneConvertis] = 'v');
                                     Pep8.charo(' ');
-                                    estValide=false;
+                                    temporary=false;
                                 }
                             }
 
                         }
 
+
                         tild();
                         Pep8.charo(' ');
+
 
                     }
                     Pep8.charo('|');
                     Pep8.charo('\n');
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                
                 /**
                  * le 5eme char est l'espace separant les specifications d'un bateau à l'autre.
                  */
@@ -524,6 +515,8 @@ public class UnTableau {
 
 
            }while(!estValide);
+
+
             /**
              * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
              */
