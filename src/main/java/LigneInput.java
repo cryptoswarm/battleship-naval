@@ -149,6 +149,28 @@ public class LigneInput {
     }
 
 
+
+    public static char [] ajouterTaille(char taille) {
+        int nbTaille = 0;
+        char[] tailleTab =new char[100000000];
+
+        if (nbTaille < 10000000) {
+            tailleTab[taille] = taille;
+            nbTaille++;
+        }
+        return tailleTab;
+    }
+
+
+/**
+
+    public void ajouterEmploye(Employe unEmploye){
+        if(nbEmploye<25){
+            tabEmploye[nbEmploye]=unEmploye;
+            nbEmploye ++;
+        }
+**/
+
     /**
      * Methode imprimant un beateau a deux dimensions de 9 rangees et 18 colonnes
      */
@@ -215,6 +237,7 @@ public class LigneInput {
         int rangeeConvertis;
         char lignInput1 = 'x';
         char charQuitter='y';
+        int n=0;
 
         int rangeeInitiale=9;
         int rangeeInitialeTemp;
@@ -246,6 +269,13 @@ public class LigneInput {
             Pep8.charo('\n');
         }
 
+        char []tailleTab=new char[1000];
+        char []orientationTab=new char[1000];
+        char []colonneTab=new char[1000];
+        int []colonneTabConvertis = new int [1000];
+        char []rangeeTab=new char[1000];
+        int [] rangeeTabConvertis = new int [1000];
+
 
 
 
@@ -274,12 +304,20 @@ public class LigneInput {
 
 
                         //if(estValide) {
-                         taille = Pep8.chari();
-                         if (!checkTaille(taille)) {
-                         estValide = false;
+                    //taille = Pep8.chari(); it was this way.
+                         tailleTab[n] = Pep8.chari();
+                         //if (!checkTaille(taille)) {
+                    if (!checkTaille(tailleTab[n])) {
+                             //ajouterTaille(taille);
+                             estValide = false;
                          // temporary=false;
+                            // ajouterTaille[taille];
 
                          }
+
+
+
+
 
                          Pep8.charo('\n');
 
@@ -288,8 +326,10 @@ public class LigneInput {
                          * * le deuxiem char est l'orientation du bateau
                          * */
 
-                        orientation = Pep8.chari();
-                        if (!checkOriontation(orientation)) {
+                        //orientation = Pep8.chari();
+                        orientationTab[n] = Pep8.chari();
+                        //if (!checkOriontation(orientation)) {
+                    if (!checkOriontation(orientationTab[n])) {
                             estValide = false;
                             //temporary=false;
 
@@ -301,26 +341,32 @@ public class LigneInput {
                          * le 3eme char est la colonne
                          */
 
-                        colonne = Pep8.chari();
-                        if (!checkLetterColonne(colonne)) {
+                        //colonne = Pep8.chari();
+                        colonneTab[n] = Pep8.chari();
+                        //if (!checkLetterColonne(colonne)) {
+                            if (!checkLetterColonne(colonneTab[n])) {
                             estValide = false;
                             // temporary=false;
 
                         }
+                    colonneTabConvertis[n] = (int)colonneTab[n]-65;
 
-                        Pep8.charo('\n');
+                    Pep8.charo('\n');
 
                         /**
                          * le 4eme char est la rangee
                          */
 
-                        rangee = Pep8.chari();
+                       // rangee = Pep8.chari();
+                        rangeeTab[n] = Pep8.chari();
 
-                        if (!checkNombreRanger(rangee)) {
+                        //if (!checkNombreRanger(rangee)) {
+                            if (!checkNombreRanger(rangeeTab[n])) {
                             estValide = false;
                             //temporary=false;
 
                         }
+                    rangeeTabConvertis[n] = (int)rangeeTab[n]-48;
 
 
                         Pep8.charo('\n');
@@ -329,32 +375,36 @@ public class LigneInput {
                         // }
 
 
+
+
+                    
+
+                    n++;
                     /**
-                     * Le corps du jeu, englobant l'affichat du tableau mise a jour et l'affichage des bateaux aneantis
+                     * le 5eme char est l'espace separant les specifications d'un bateau à l'autre.
                      */
+                    lignInput1 = Pep8.chari();
 
-                    Pep8.stro("the first line of code is supposed to print la taille :" + taille);
-                    Pep8.charo('\n');
-                    Pep8.stro("the second line of code is supposed to print l'orientation  :" + orientation);
-                    Pep8.charo('\n');
-                    Pep8.stro("the second line of code is supposed to print la colonne  :" + colonne);
-                    Pep8.charo('\n');
+                } while (lignInput1 == ' ');
 
-                    colonneConvertis = (int) colonne - 65;
+                for(int j=0; j<=3; j++) {
+                    System.out.println("taille est : "+tailleTab[j]);
+                    System.out.println("orientation est : "+orientationTab[j]);
+                    System.out.println("colonne est : "+colonneTab[j]);
+                    //colonneTabConvertis[j] = (int)colonneTab[j]-65;
+                    System.out.println("colonne convertis est : "+colonneTabConvertis[j]);
 
-                    Pep8.stro("la colonne  de position bateau est " + colonneConvertis);
-                    Pep8.charo('\n');
-                    Pep8.stro("the second line of code is supposed to print la rangee  :" + rangee);
-                    Pep8.charo('\n');
-                    rangeeConvertis = (int) (rangee) - 48;
-                    Pep8.stro("indice de rangee apres convertion =" + rangeeConvertis);
-
-                    Pep8.charo('\n');
+                    System.out.println("rangee est : "+rangeeTab[j]);
+                    //rangeeTabConvertis[j] = (int)rangeeTab[j]-48;
+                    System.out.println("rangee convertis est : "+ rangeeTabConvertis[j]);
 
 
-                    /**
-                     * Affichage de l'espace de jeu mis à jour
-                     */
+
+
+
+                /**
+                 * Affichage de l'espace de jeu mis à jour
+                 */
                  // if(temporary) {
 
                       afficherLetters();
@@ -365,7 +415,7 @@ public class LigneInput {
                           Pep8.charo('|');
                           for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
 
-
+                              //int indice =0;
                               //for (rangeeInitiale = 0; rangeeInitiale < situationInitiale.length; rangeeInitiale++) {
                               //Pep8.deco(rangeeInitiale + 1);
                               //Pep8.charo('|');
@@ -392,29 +442,32 @@ public class LigneInput {
                               //if (rangeeInitiale == (rangeeConvertis) && (colonneInitiale == colonneConvertis)) {
                               // if ((situationInitiale[rangeeInitiale][colonneInitiale]) == (positionDesBateau[rangeeConvertis - 1][colonneConvertis])) {
 
-                              if (taille == 'g') {
+                              //if (taille == 'g') {
+                                  if (tailleTab[j] == 'g') {
 
 
-                                  if (orientation == 'h') {
+                                  //if (orientation == 'h') {
+                                      if (orientationTab[j] == 'h') {
 
 
                                       for (int i = 0; i < 5; i++) {
-                                          if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                         // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                          if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
 
-
-                                              Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+                                              Pep8.charo(positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>');
 
                                               Pep8.charo(' ');
                                               temporary = false;
                                           }
                                       }
-                                  } else if (orientation == 'v') {
+                                 // } else if (orientation == 'v') {
+                                      } else if (orientationTab[j] == 'v') {
 
                                       for (int i = 0; i < 5; i++) {
 
-                                          if (rangeeInitiale == (rangeeConvertis - 1 + i) && (colonneInitiale == colonneConvertis)) {
+                                          if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
 
-                                              Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
+                                              Pep8.charo(situationInitiale[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v');
 
                                               Pep8.charo(' ');
                                               temporary = false;
@@ -424,14 +477,16 @@ public class LigneInput {
                                   }
 
 
-                              } else if (taille == 'm') {
+                             // } else if (taille == 'm') {
+                                  } else if (tailleTab[j] == 'm') {
 
-                                  if (orientation == 'h') {
+                                  //if (orientation == 'h') {
+                                      if (orientationTab[j] == 'h') {
 
                                       for (int i = 0; i < 3; i++) {
 
-                                          if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                              Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+                                          if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                              Pep8.charo(positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>');
 
 
                                               Pep8.charo(' ');
@@ -440,14 +495,15 @@ public class LigneInput {
                                       }
 
 
-                                  } else if (orientation == 'v') {
+                                  //} else if (orientation == 'v') {
+                                      } else if (orientationTab[j] == 'v') {
 
 
                                       for (int i = 0; i < 3; i++) {
 
-                                          if (rangeeInitiale == (rangeeConvertis - 1 + i) && (colonneInitiale == colonneConvertis)) {
+                                          if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
 
-                                              Pep8.charo(situationInitiale[(rangeeConvertis - 1) + i][colonneConvertis] = 'v');
+                                              Pep8.charo(situationInitiale[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v');
 
                                               Pep8.charo(' ');
                                               temporary = false;
@@ -457,14 +513,16 @@ public class LigneInput {
                                   }
 
 
-                              } else if (taille == 'p') {
+                             // } else if (taille == 'p') {
+                                  } else if (tailleTab[j] == 'p') {
 
-                                  if (orientation == 'h') {
+                                 // if (orientation == 'h') {
+                                      if (orientationTab[j] == 'h') {
 
 
                                       for (int i = 0; i < 1; i++) {
-                                          if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                              Pep8.charo(positionDesBateau[rangeeConvertis - 1][colonneConvertis + i] = '>');
+                                          if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                              Pep8.charo(positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>');
                                               Pep8.charo(' ');
                                               temporary = false;
                                           }
@@ -472,11 +530,12 @@ public class LigneInput {
                                   }
 
 
-                              } else if (orientation == 'v') {
+                              //} else if (orientation == 'v') {
+                                  } else if (orientationTab[j] == 'v') {
 
                                   for (int i = 0; i < 1; i++) {
-                                      if (rangeeInitiale == (rangeeConvertis - 1 + i) && (colonneInitiale == colonneConvertis)) {
-                                          Pep8.charo(positionDesBateau[rangeeConvertis - 1 + i][colonneConvertis] = 'v');
+                                      if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                          Pep8.charo(positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v');
                                           Pep8.charo(' ');
                                           temporary = false;
                                       }
@@ -499,7 +558,7 @@ public class LigneInput {
                       }
 
 
-                 // }
+                  }
 
 
 
@@ -513,13 +572,6 @@ public class LigneInput {
 
 
 
-
-                    /**
-                     * le 5eme char est l'espace separant les specifications d'un bateau à l'autre.
-                     */
-                    lignInput1 = Pep8.chari();
-
-                } while (lignInput1 == ' ');
 
 
 
@@ -539,7 +591,8 @@ public class LigneInput {
         } while (charQuitter == '\n');
 
     }
-
-
 }
+
+
+
 

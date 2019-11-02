@@ -497,7 +497,7 @@ public class UnTableau {
                     Pep8.charo('\n');
                 }
 
-                
+
                 /**
                  * le 5eme char est l'espace separant les specifications d'un bateau à l'autre.
                  */
