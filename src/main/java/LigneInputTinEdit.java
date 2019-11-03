@@ -1,7 +1,6 @@
 public class LigneInputTinEdit {
 
 
-
     public static void msgPLacerBateau() {
         Pep8.stro("Entrer la description et la position des bateaux\n" +
                 "selon le format suivant, separes par des espaces:\n" + " taille[p/m/g] orientation[h/v] colonne[A-R] rangée[1-9]\n" + " ex: ghC4 mvM2 phK9");
@@ -35,6 +34,18 @@ public class LigneInputTinEdit {
     public static void tild() {
         Pep8.charo('~');
     }
+
+    /**
+     * message indiquant au joueur qu'il peut tirer
+     */
+    public static void msgFeuAVolonte() {
+
+        Pep8.stro("Feu à volonté!\n" +
+                "(entrer les coups à tirer: colonne [A-R] rangée [1-9])\n" +
+                "ex: A3 I5 M3");
+    }
+
+
 
     /**
      * msg de fin de jeu ou de recommencer  le jeu
@@ -393,30 +404,38 @@ public class LigneInputTinEdit {
                             // if ((situationInitiale[rangeeInitiale][colonneInitiale]) == (positionDesBateau[rangeeConvertis - 1][colonneConvertis])) {
 
                             //if (taille == 'g') {
+
                             if (tailleTab[j] == 'g') {
+                               // if (!(colonneTabConvertis[j] == colonneTabConvertis[j + 1]) && !(rangeeTabConvertis[j] == rangeeTabConvertis[j = 1])) {
                                 //if (orientation == 'h') {
                                 if (orientationTab[j] == 'h') {
-                                    for (int i = 0; i < 5; i++) {
-                                        // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                            positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                            //Pep8.charo(' ');
-                                            temporary = false;
-                                        }
-                                    }
-                                    // } else if (orientation == 'v') {
-                                } else if (orientationTab[j] == 'v') {
-                                    for (int i = 0; i < 5; i++) {
-                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                            positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
-                                            //Pep8.charo(' ');
-                                            temporary = false;
-                                        }
 
+                                        for (int i = 0; i < 5; i++) {
+                                            // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                            if (colonneTabConvertis[j] < 14) {
+                                                //if(colonneTabConvertis[j]<colonneTabConvertis[j+1] || rangeeTabConvertis[j]==rangeeTabConvertis[j+1]){
+                                                if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                                    positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                                    //Pep8.charo(' ');
+                                                    //temporary = false;
+                                                }
+                                            }
+                                        }
+                                        // } else if (orientation == 'v') {
+                                    } else if (orientationTab[j] == 'v') {
+                                        for (int i = 0; i < 5; i++) {
+                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                                //Pep8.charo(' ');
+                                                temporary = false;
+                                            }
+
+                                        }
                                     }
-                                }
-                                // } else if (taille == 'm') {
-                            } else if (tailleTab[j] == 'm') {
+                               // }// } else if (taille == 'm') {
+
+
+                        }else if (tailleTab[j] == 'm') {
 
                                 //if (orientation == 'h') {
                                 if (orientationTab[j] == 'h') {
@@ -490,8 +509,9 @@ public class LigneInputTinEdit {
             //positionDesBateau[]
                 /**
                  * Affichage de l'espace de jeu mis à jour
-                 */
+
                 // if(temporary) {
+                 */
                 afficherLetters();
                 Pep8.charo('\n');
                 char c;
@@ -511,6 +531,12 @@ public class LigneInputTinEdit {
                     Pep8.charo('|');
                     Pep8.charo('\n');
                 }
+            /**
+             * le bout de code suivant va afficher un msg demandanu au joueur d'entrer des coups
+             */
+            Pep8.charo('\n');
+            msgFeuAVolonte();
+
 
 
 
@@ -519,6 +545,9 @@ public class LigneInputTinEdit {
              */
             msgQuitter();
             charQuitter = Pep8.chari();
+            //if(charQuitter=='\n') {
+             //   n = 0;
+          //  }
         } while (charQuitter == '\n');
 
     }

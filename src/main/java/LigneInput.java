@@ -385,12 +385,12 @@ public class LigneInput {
                      */
                     // if(temporary) {
 
-                    afficherLetters();
-                    Pep8.charo('\n');
+                   // afficherLetters();
+                   // Pep8.charo('\n');
 
                     for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                        Pep8.deco(rangeeInitiale + 1);
-                        Pep8.charo('|');
+                       // Pep8.deco(rangeeInitiale + 1);
+                       // Pep8.charo('|');
                         for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
                             //int j = 0;
 
@@ -506,15 +506,15 @@ public class LigneInput {
 
                             }
 
-                            tild();
-                            Pep8.charo(' ');
+                           // tild();
+                           // Pep8.charo(' ');
 
 
                         }
 
 
-                        Pep8.charo('|');
-                        Pep8.charo('\n');
+                       // Pep8.charo('|');
+                        //Pep8.charo('\n');
                     }
                 }
 
