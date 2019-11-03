@@ -245,6 +245,7 @@ public class LigneInput {
         msgBienvenue();
         afficherLetters();
         Pep8.charo('\n');
+
         imprimerTableauInitial(9, 18, '~');
 
         /**
@@ -283,7 +284,7 @@ public class LigneInput {
 
                 msgPLacerBateau();
 
-                estValide = true;
+                 estValide = true;
 
                 do {
 
