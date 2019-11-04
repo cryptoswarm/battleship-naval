@@ -185,10 +185,10 @@ public class UnTableau {
      **/
 
 
-    public static void imprimerTableauInitial(int rangee, int colonne, char tild){
+    public static char [][] imprimerTableauInitial(int rangee, int colonne, char tild){
 
-        char resDeRangeeColonne;
-        char situationInitiale[][] = new char [rangee][colonne];
+        //char resDeRangeeColonne;
+        char [][]situationInitiale = new char [rangee][colonne];
 
         //        resDeRangeeColonne =
         situationInitiale[rangee-1][colonne-1] =tild;
@@ -206,7 +206,7 @@ public class UnTableau {
             Pep8.charo('|');
             Pep8.charo('\n');
         };
-        //return resDeRangeeColonne;
+        return situationInitiale;
     }
 
     /**
@@ -229,6 +229,26 @@ public class UnTableau {
     }
 
 
+    /**
+     *
+     *
+     */
+
+    public static boolean stiilHasBoat(char [][]positionDesBateau){
+
+        boolean resultat = false;
+        for(int rangee=0; rangee<positionDesBateau.length; rangee++){
+            for(int colonne=0; colonne<positionDesBateau[rangee].length; colonne++){
+                if(positionDesBateau[rangee][colonne]=='v' ||positionDesBateau[rangee][colonne]=='>' ){
+                    resultat=true;
+                }
+            }
+        }
+
+        return resultat;
+    }
+
+
 
     public static void main(String[] args) {
 
@@ -248,13 +268,14 @@ public class UnTableau {
         char charQuitter='y';
         int n=0;
         int k=0;
+        int j;
 
         int rangeeInitiale=9;
         int rangeeInitialeTemp;
         int colonneInitiale=18;
         int colonneInitialeTemp;
 
-        char [][] situationInitiale = new char [rangeeInitiale][colonneInitiale];
+        //char [][] situationInitiale = new char [rangeeInitiale][colonneInitiale];
 
         char [][] positionDesBateau = new char [rangeeInitiale][colonneInitiale];
 
@@ -264,7 +285,9 @@ public class UnTableau {
         msgBienvenue();
         afficherLetters();
         Pep8.charo('\n');
-        imprimerTableauInitial(9, 18, '~');
+        //imprimerTableauInitial(9, 18, '~');
+
+        positionDesBateau = imprimerTableauInitial(9, 18, '~');
 
 
 
@@ -374,7 +397,7 @@ public class UnTableau {
                  */
 
 
-                for (int j = 0; j < n; j++) {
+                for ( j = 0; j < n; j++) {
                     colonneTabConvertis[j] = (int) colonneTab[j] - 65;
                     rangeeTabConvertis[j] = (int) rangeeTab[j] - 48;
 
@@ -520,12 +543,12 @@ public class UnTableau {
                 Pep8.charo('|');
                 for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
                     c = positionDesBateau[rangeeInitiale][colonneInitiale];
-                    if(c == 'v' || c == '>') {
+                    //if(c == 'v' || c == '>') {
                         Pep8.charo(c);
-                    }
-                    else {
-                        tild();
-                    }
+                    //}
+                    //else {
+                       // tild();
+                   // }
                     Pep8.charo(' ');
                 }
                 Pep8.charo('|');
@@ -585,7 +608,7 @@ public class UnTableau {
 
 
 
-                for (int j = 0; j < k; j++) {
+                for (j = 0; j < k; j++) {
 
 
                     colonneFeuConvertis[j] = (int) colonneFeu[j] - 65;
@@ -709,28 +732,35 @@ public class UnTableau {
 
                             }
 
-                            if(rangeeInitiale==(rangeeTabConvertis[j]-1) && colonneInitiale == colonneTabConvertis[j]) {
+                            char toucheOuNon ;
+
+                            //toucheOuNon = positionDesBateau[(rangeeFeuConvertis[j]-1)][colonneFeuConvertis[j]];
+
+                           // if(rangeeInitiale==(rangeeTabConvertis[j]-1) && colonneInitiale == colonneTabConvertis[j]) {
+
+                            if(positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] == 'v' || positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] =='>'){
+                                positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '*';
+
 // -1
-                                if ((rangeeFeuConvertis[j] == rangeeTabConvertis[j]) && (colonneFeuConvertis[j] == colonneTabConvertis[j])) {
-                                    positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '*';
-                                } else {
-                                    positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]] = 'o';
+                               // if ((rangeeFeuConvertis[j] == rangeeTabConvertis[j]) && (colonneFeuConvertis[j] == colonneTabConvertis[j])) {
+                                   // positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '*';
+                                    //toucheOuNon = '*';
+                                //}
+                            }else {
+                                    positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = 'o';
+                                    //toucheOuNon = 'o';
                                 }
-                            }
+                           // }
 
-                            char toucheOuNon ;  //Si touché on imprime '*' sinon 'o'
+                              //Si touché on imprime '*' sinon 'o'
 
 
-                            c = positionDesBateau[rangeeInitiale][colonneInitiale];
+                            c = positionDesBateau[rangeeInitiale][colonneInitiale];  // tild
+
                             toucheOuNon = positionDesBateau[(rangeeFeuConvertis[j]-1)][colonneFeuConvertis[j]];
+                            //toucheOuNon = [(rangeeFeuConvertis[j]-1)][colonneFeuConvertis[j]];
 
-                            if(c == 'v' || c == '>' || c == toucheOuNon) {
-                                Pep8.charo(c);
-
-                            }else{
-                                tild();
-
-                            }
+                            Pep8.charo(c);
 
                             Pep8.charo(' ');
 
@@ -752,7 +782,9 @@ public class UnTableau {
 
 
 
-            }while(!estValide ); // || nb v ou > !=0
+
+
+            }while(!estValide || stiilHasBoat(positionDesBateau)); // || nb v ou > !=0
 
 
 
@@ -779,12 +811,20 @@ public class UnTableau {
             /**
              * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
              */
+            for(rangeeInitiale=0; rangeeInitiale<positionDesBateau.length; rangeeInitiale++){
+                for(colonneInitiale=0; colonneInitiale<positionDesBateau[rangeeInitiale].length; colonneInitiale++){
+                    positionDesBateau[rangeeInitiale][colonneInitiale]='~';
+                }
+            }
+            //positionDesBateau = imprimerTableauInitial(9, 18, '~');
+
             Pep8.charo('\n');
             msgQuitter();
             charQuitter = Pep8.chari();
-            //if(charQuitter=='\n') {
-            //   n = 0;
-            //  }
+            if(charQuitter=='\n') {
+               n = 0;
+               k=0;
+              }
         } while (charQuitter == '\n');
 
     }
