@@ -406,32 +406,33 @@ public class LigneInputTinEdit {
                             //if (taille == 'g') {
 
                             if (tailleTab[j] == 'g') {
-                               // if (!(colonneTabConvertis[j] == colonneTabConvertis[j + 1]) && !(rangeeTabConvertis[j] == rangeeTabConvertis[j = 1])) {
+                                if ((colonneTabConvertis[j] == colonneTabConvertis[j + 1]) && !(rangeeTabConvertis[j] == rangeeTabConvertis[j = 1])) {
                                 //if (orientation == 'h') {
                                 if (orientationTab[j] == 'h') {
 
-                                        for (int i = 0; i < 5; i++) {
-                                            // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                            if (colonneTabConvertis[j] < 14) {
-                                                //if(colonneTabConvertis[j]<colonneTabConvertis[j+1] || rangeeTabConvertis[j]==rangeeTabConvertis[j+1]){
-                                                if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                    positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                                    //Pep8.charo(' ');
-                                                    //temporary = false;
-                                                }
-                                            }
-                                        }
-                                        // } else if (orientation == 'v') {
-                                    } else if (orientationTab[j] == 'v') {
-                                        for (int i = 0; i < 5; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                    for (int i = 0; i < 5; i++) {
+                                        // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                        if (colonneTabConvertis[j] < 14) {
+                                            //if(colonneTabConvertis[j]<colonneTabConvertis[j+1] || rangeeTabConvertis[j]==rangeeTabConvertis[j+1]){
+                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
                                                 //Pep8.charo(' ');
-                                                temporary = false;
+                                                //temporary = false;
                                             }
-
                                         }
                                     }
+                                    // } else if (orientation == 'v') {
+                                } else if (orientationTab[j] == 'v') {
+                                    for (int i = 0; i < 5; i++) {
+                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                            positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            //Pep8.charo(' ');
+                                            temporary = false;
+                                        }
+
+                                    }
+                                }
+                            }
                                // }// } else if (taille == 'm') {
 
 
