@@ -21,7 +21,8 @@ public class BatailleReal {
         Pep8.charo(' ');
         while (colonne <= 'R') {
             //Pep8.charo('');
-            Pep8.stro(" " + colonne);
+           Pep8.stro(" " + colonne);
+            //Pep8.charo(colonne);
             colonne = (char) (colonne + 1);
         }
 
@@ -265,23 +266,7 @@ public class BatailleReal {
         Pep8.charo('\n');
         imprimerTableauInitial(9, 18, '~');
 
-        /**
 
-
-         for (rangeeInitiale = 0; rangeeInitiale < situationInitiale.length; rangeeInitiale++) {
-
-         Pep8.deco(rangeeInitiale + 1);
-         Pep8.charo('|');
-
-         for (colonneInitiale = 0; colonneInitiale < (situationInitiale[rangeeInitiale].length); colonneInitiale++) {
-         tild();
-         Pep8.charo(' ');
-         }
-         Pep8.charo('|');
-         Pep8.charo('\n');
-         }
-
-         **/
 
         char []tailleTab=new char[1000];
         char []orientationTab=new char[1000];
@@ -384,6 +369,10 @@ public class BatailleReal {
 
                 } while (lignInput1 == ' ');
 
+                /**
+                 * Conversion des chars à des entiers
+                 */
+
 
                 for (int j = 0; j < n; j++) {
                     colonneTabConvertis[j] = (int) colonneTab[j] - 65;
@@ -392,41 +381,34 @@ public class BatailleReal {
                     /**
                      * Affichage de l'espace de jeu mis à jour
                      */
-                    // if(temporary) {
-                    //afficherLetters();
-                    //Pep8.charo('\n');
+
 
                     for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                        //Pep8.deco(rangeeInitiale + 1);
-                        //Pep8.charo('|');
+
                         for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-                            //int j = 0;
+
                             /**
                              * quand la cordonnees du bateau initiale egale la coordonnees du position entré
                              * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
                              * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
                              */
-                            // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                            //if (rangeeInitiale == (rangeeConvertis) && (colonneInitiale == colonneConvertis)) {
-                            // if ((situationInitiale[rangeeInitiale][colonneInitiale]) == (positionDesBateau[rangeeConvertis - 1][colonneConvertis])) {
 
-                            //if (taille == 'g') {
 
                             if (tailleTab[j] == 'g') {
-                                // if (!(colonneTabConvertis[j] == colonneTabConvertis[j + 1]) && !(rangeeTabConvertis[j] == rangeeTabConvertis[j = 1])) {
-                                //if (orientation == 'h') {
-                                if (orientationTab[j] == 'h') {
 
-                                    if(positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] -1) > 5) {// 13
+                                if (orientationTab[j] == 'h') {
+                                    /**
+                                     * Si le bateau est grand, orienter horizontalement
+                                     * et que la colonne commence à O, le bateau va pas etre affiché.
+                                     */
+
+                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 5) {
 
                                         for (int i = 0; i < 5; i++) {
-                                            // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                            //if (colonneTabConvertis[j] < 14) {
-                                            //if(colonneTabConvertis[j]<colonneTabConvertis[j+1] || rangeeTabConvertis[j]==rangeeTabConvertis[j+1]){
+
                                             if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
                                                 positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                                //Pep8.charo(' ');
-                                                //temporary = false;
+
                                             } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
                                                 // }
                                                 positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
@@ -434,92 +416,96 @@ public class BatailleReal {
                                         }
                                     }
 
-                                    // } else if (orientation == 'v') {
+                                    /**
+                                     * Si le bateau est grand, orienter verticalement
+                                     * et que la rangee commence à 6, le bateau va pas etre affiché.
+                                     */
+
+
                                 } else if (orientationTab[j] == 'v') {
+                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 5) {
                                     for (int i = 0; i < 5; i++) {
                                         if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
                                             positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
-                                            //Pep8.charo(' ');
-                                            //temporary = false;
+
                                         }
 
                                     }
                                 }
-                                // }// } else if (taille == 'm') {
+
+                            }
 
 
                             }else if (tailleTab[j] == 'm') {
 
-                                //if (orientation == 'h') {
+
                                 if (orientationTab[j] == 'h') {
+
+                                    /**
+                                     * Si le bateau est moyen, orienter horizontalement
+                                     * et que la colonne commence à Q, le bateau va pas etre affiché.
+                                     */
+
+                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 3) {
                                     for (int i = 0; i < 3; i++) {
                                         if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
                                             positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                            //Pep8.charo(' ');
-                                            temporary = false;
+
                                         }
                                     }
-                                    //} else if (orientation == 'v') {
+                                }
+
                                 } else if (orientationTab[j] == 'v') {
+
+                                    /**
+                                     * Si le bateau est moyen, orienter verticalement
+                                     * et que la rangee commence à 8, le bateau va pas etre affiché.
+                                     */
+
+
+                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 3) {
                                     for (int i = 0; i < 3; i++) {
                                         if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
                                             positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
-                                            //Pep8.charo(' ');
-                                            temporary = false;
+
                                         }
                                     }
+                                }
 
                                 }
 
 
-                                // } else if (taille == 'p') {
                             } else if (tailleTab[j] == 'p') {
 
-                                // if (orientation == 'h') {
                                 if (orientationTab[j] == 'h') {
 
 
                                     for (int i = 0; i < 1; i++) {
                                         if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
                                             positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                            //Pep8.charo(' ');
-                                            temporary = false;
+
                                         }
                                     }
                                 }
 
 
-                                //} else if (orientation == 'v') {
                             } else if (orientationTab[j] == 'v') {
 
                                 for (int i = 0; i < 1; i++) {
                                     if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
                                         positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v';
-                                        //Pep8.charo(' ');
-                                        temporary = false;
+
                                     }
                                 }
 
                             }
 
-                            //tild();
-                            //Pep8.charo(' ');
-
-
                         }
 
-                        //Pep8.charo('|');
-                        //Pep8.charo('\n');
                     }
                 }
             }while(!estValide);
-            //
-            // NOUVEAU BOUCLE POUR AFFICHAGE
-            //
 
-            //colonneTabConvertis[j]
-            //rangeeTabConvertis[j]
-            //positionDesBateau[]
             /**
              * Affichage de l'espace de jeu mis à jour
 
@@ -561,6 +547,8 @@ public class BatailleReal {
             int [] colonneFeuConvertis = new int [1000];
             char []rangeeFeu = new char [1000];
             int [] rangeeFeuConvertis = new int [1000];
+
+
 
             do{
                 Pep8.charo('\n');
@@ -628,25 +616,25 @@ public class BatailleReal {
                          * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
                          * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
                          */
-
-                        if((rangeeFeuConvertis[j]==rangeeTabConvertis[j])&&(colonneFeuConvertis[j] == colonneTabConvertis[j]) ){
-                           positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]]='*';
-                        }else{
-                            positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]]='o';
+                        if(rangeeInitiale==(rangeeTabConvertis[j]-1) && colonneInitiale == colonneTabConvertis[j]) {
+// -1
+                            if ((rangeeFeuConvertis[j] == rangeeTabConvertis[j]) && (colonneFeuConvertis[j] == colonneTabConvertis[j])) {
+                                positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]] = '*';
+                            } else {
+                                positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]] = 'o';
+                            }
                         }
 
 
                         if (tailleTab[j] == 'g') {
-                            // if (!(colonneTabConvertis[j] == colonneTabConvertis[j + 1]) && !(rangeeTabConvertis[j] == rangeeTabConvertis[j = 1])) {
+
 
                             if (orientationTab[j] == 'h') {
 
-                                if(positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] -1) > 5) {// 13
+                                if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 5) {
 
                                     for (int i = 0; i < 5; i++) {
-                                        // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
-                                        //if (colonneTabConvertis[j] < 14) {
-                                        //if(colonneTabConvertis[j]<colonneTabConvertis[j+1] || rangeeTabConvertis[j]==rangeeTabConvertis[j+1]){
+
                                         if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
                                             positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
@@ -658,45 +646,51 @@ public class BatailleReal {
                                 }
 
 
-                            } else if (orientationTab[j] == 'v') {
-                                for (int i = 0; i < 5; i++) {
-                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                        positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
-                                        //Pep8.charo(' ');
-                                        //temporary = false;
-                                    }
+                                } else if (orientationTab[j] == 'v') {
 
+                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 5) {
+                                            for (int i = 0; i < 5; i++) {
+                                                if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                                    positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+
+                                                }
+
+                                        }
+                                    }
                                 }
-                            }
-                            // }// } else if (taille == 'm') {
+
 
 
                         }else if (tailleTab[j] == 'm') {
 
 
                             if (orientationTab[j] == 'h') {
+                                if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 3) {
+
                                 for (int i = 0; i < 3; i++) {
                                     if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
                                         positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
                                     }
                                 }
-                                //} else if (orientation == 'v') {
+                            }
+
                             } else if (orientationTab[j] == 'v') {
+                                if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 3) {
                                 for (int i = 0; i < 3; i++) {
                                     if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
                                         positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
 
                                     }
                                 }
+                            }
 
                             }
 
 
-                            // } else if (taille == 'p') {
                         } else if (tailleTab[j] == 'p') {
 
-                            // if (orientation == 'h') {
+
                             if (orientationTab[j] == 'h') {
 
 
@@ -708,8 +702,6 @@ public class BatailleReal {
                                 }
                             }
 
-
-                            //} else if (orientation == 'v') {
                         } else if (orientationTab[j] == 'v') {
 
                             for (int i = 0; i < 1; i++) {
@@ -728,22 +720,23 @@ public class BatailleReal {
                 }
             }
 
-            }while(!estValide);
+            }while(!estValide ); // || nb v ou > !=0
 
 
 
             afficherLetters();
             Pep8.charo('\n');
-            //int nbCoup=0;
-            char empty;
+            int nbCoup=0;
+            //char c;
             char toucheOuNon ;  //Si touché on imprime '*' sinon 'o'
 
             for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
                 Pep8.deco(rangeeInitiale + 1);
                 Pep8.charo('|');
                 for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-                    empty = positionDesBateau[rangeeInitiale][colonneInitiale];
-                   // toucheOuNon = positionDesBateau[rangeeFeuConvertis[nbCoup]][colonneFeuConvertis[nbCoup]];
+                    c = positionDesBateau[rangeeInitiale][colonneInitiale];
+                   toucheOuNon = positionDesBateau[(rangeeFeuConvertis[nbCoup])-1][colonneFeuConvertis[nbCoup]];
+                    //toucheOuNon = positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]];
 
 
 
@@ -752,10 +745,10 @@ public class BatailleReal {
                     //if(eau !='v' || eau != '>')
                       //  Pep8.charo('o');
 
-                    if(empty == 'v' || empty == '>') {
-                       Pep8.charo(empty);
-                   }
-                   else{
+                    if(c == 'v' || c == '>' || c == toucheOuNon) {
+                        Pep8.charo(c);
+
+                    }else{
                         tild();
 
                     }
