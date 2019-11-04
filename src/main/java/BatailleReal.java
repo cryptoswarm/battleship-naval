@@ -525,6 +525,7 @@ public class BatailleReal {
 
              // if(temporary) {
              */
+
             afficherLetters();
             Pep8.charo('\n');
             char c;
@@ -544,6 +545,10 @@ public class BatailleReal {
                 Pep8.charo('|');
                 Pep8.charo('\n');
             }
+
+
+
+
             /**
              * le bout de code suivant va afficher un msg demandanu au joueur d'entrer des coups
              */
@@ -555,7 +560,7 @@ public class BatailleReal {
             char []colonneFeu = new char[1000];
             int [] colonneFeuConvertis = new int [1000];
             char []rangeeFeu = new char [1000];
-            int []rangeeFeuConvertis = new int [1000];
+            int [] rangeeFeuConvertis = new int [1000];
 
             do{
                 Pep8.charo('\n');
@@ -589,10 +594,11 @@ public class BatailleReal {
 
 
 
-            }while(!estValide);
 
 
-            for (int j = 0; j < n; j++) {
+
+            for (int j = 0; j < k; j++) {
+
 
 
                 colonneFeuConvertis[j] = (int) colonneFeu[j] - 65;
@@ -602,6 +608,182 @@ public class BatailleReal {
                 rangeeFeuConvertis[j] = (int) rangeeFeu[j] - 48;
                 Pep8.charo('\n');
                 Pep8.stro("rangee de feu tiré est : "+rangeeFeuConvertis[j]);
+                Pep8.charo('\n');
+
+
+                /**
+                 * le code suivant est sensé affiché le jeu mise a jour
+                 * la position des bateaux
+                 * les coups tiré
+                 */
+
+
+
+                for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
+
+                    for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
+
+                        /**
+                         * quand la cordonnees du bateau initiale egale la coordonnees du position entré
+                         * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
+                         * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
+                         */
+
+                        if((rangeeFeuConvertis[j]==rangeeTabConvertis[j])&&(colonneFeuConvertis[j] == colonneTabConvertis[j]) ){
+                           positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]]='*';
+                        }else{
+                            positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]]='o';
+                        }
+
+
+                        if (tailleTab[j] == 'g') {
+                            // if (!(colonneTabConvertis[j] == colonneTabConvertis[j + 1]) && !(rangeeTabConvertis[j] == rangeeTabConvertis[j = 1])) {
+
+                            if (orientationTab[j] == 'h') {
+
+                                if(positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] -1) > 5) {// 13
+
+                                    for (int i = 0; i < 5; i++) {
+                                        // if (rangeeInitiale == (rangeeConvertis - 1) && (colonneInitiale == colonneConvertis)) {
+                                        //if (colonneTabConvertis[j] < 14) {
+                                        //if(colonneTabConvertis[j]<colonneTabConvertis[j+1] || rangeeTabConvertis[j]==rangeeTabConvertis[j+1]){
+                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                            positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+
+                                        } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
+                                            // }
+                                            positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
+                                        }
+                                    }
+                                }
+
+
+                            } else if (orientationTab[j] == 'v') {
+                                for (int i = 0; i < 5; i++) {
+                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                        positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                        //Pep8.charo(' ');
+                                        //temporary = false;
+                                    }
+
+                                }
+                            }
+                            // }// } else if (taille == 'm') {
+
+
+                        }else if (tailleTab[j] == 'm') {
+
+
+                            if (orientationTab[j] == 'h') {
+                                for (int i = 0; i < 3; i++) {
+                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                        positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+
+                                    }
+                                }
+                                //} else if (orientation == 'v') {
+                            } else if (orientationTab[j] == 'v') {
+                                for (int i = 0; i < 3; i++) {
+                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                        positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+
+                                    }
+                                }
+
+                            }
+
+
+                            // } else if (taille == 'p') {
+                        } else if (tailleTab[j] == 'p') {
+
+                            // if (orientation == 'h') {
+                            if (orientationTab[j] == 'h') {
+
+
+                                for (int i = 0; i < 1; i++) {
+                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
+                                        positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+
+                                    }
+                                }
+                            }
+
+
+                            //} else if (orientation == 'v') {
+                        } else if (orientationTab[j] == 'v') {
+
+                            for (int i = 0; i < 1; i++) {
+                                if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
+                                    positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v';
+
+                                }
+                            }
+
+                        }
+
+
+
+                    }
+
+                }
+            }
+
+            }while(!estValide);
+
+
+
+            afficherLetters();
+            Pep8.charo('\n');
+            //int nbCoup=0;
+            char empty;
+            char toucheOuNon ;  //Si touché on imprime '*' sinon 'o'
+
+            for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
+                Pep8.deco(rangeeInitiale + 1);
+                Pep8.charo('|');
+                for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
+                    empty = positionDesBateau[rangeeInitiale][colonneInitiale];
+                   // toucheOuNon = positionDesBateau[rangeeFeuConvertis[nbCoup]][colonneFeuConvertis[nbCoup]];
+
+
+
+
+                    //Pep8.charo(positionDesBateau[rangeeFeuConvertis[k]][colonneFeuConvertis[k]] ='o');
+                    //if(eau !='v' || eau != '>')
+                      //  Pep8.charo('o');
+
+                    if(empty == 'v' || empty == '>') {
+                       Pep8.charo(empty);
+                   }
+                   else{
+                        tild();
+
+                    }
+
+                     /**
+                     *code imprimant 'o' ou '*'
+
+
+                    if(o == 'v' || o == '>') {
+                        Pep8.charo('*');
+                    }
+                    else{
+                        Pep8.charo(positionDesBateau[rangeeFeuConvertis[k]][colonneFeuConvertis[k]]='o');
+
+                    }
+                     */
+
+
+
+
+
+
+                    Pep8.charo(' ');
+
+                }
+                Pep8.charo('|');
+                Pep8.charo('\n');
+
 
             }
 
@@ -611,9 +793,23 @@ public class BatailleReal {
 
 
 
-                /**
-                 * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
-                 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /**
+             * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
+             */
             Pep8.charo('\n');
             msgQuitter();
             charQuitter = Pep8.chari();
