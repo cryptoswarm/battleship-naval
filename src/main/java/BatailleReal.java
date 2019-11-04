@@ -735,7 +735,7 @@ public class BatailleReal {
                 Pep8.charo('|');
                 for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
                     c = positionDesBateau[rangeeInitiale][colonneInitiale];
-                   toucheOuNon = positionDesBateau[(rangeeFeuConvertis[nbCoup])-1][colonneFeuConvertis[nbCoup]];
+                   toucheOuNon = positionDesBateau[(rangeeFeuConvertis[nbCoup])][colonneFeuConvertis[nbCoup]];
                     //toucheOuNon = positionDesBateau[rangeeFeuConvertis[j]][colonneFeuConvertis[j]];
 
 
