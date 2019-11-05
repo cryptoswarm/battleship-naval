@@ -67,7 +67,6 @@ public class UnTableau {
     public static boolean checkTaille(char grandeurBateau) {
         boolean estValide;
 
-        //do{
         estValide = true;
 
         if (grandeurBateau != 'p' && grandeurBateau != 'm' && grandeurBateau != 'g') {
@@ -75,14 +74,6 @@ public class UnTableau {
             Pep8.charo('\n');
             estValide = false;
         }
-/**
- if(!estValide){
- //msgPLacerBateau();
- Pep8.stro("grandeur  est incorrecte");
- }
- **/
-
-        //}while(!estValide);
 
         return estValide;
     }
@@ -103,14 +94,6 @@ public class UnTableau {
 
             estValide = false;
         }
-/**
- if (!estValide) {
- //msgPLacerBateau();
- Pep8.stro("orientation est incorrecte");
- Pep8.charo('\n');
- }
- **/
-        //}while (!estValide);
 
         return estValide;
     }
@@ -129,16 +112,6 @@ public class UnTableau {
             estValide = false;
 
         }
-/**
- if (!estValide) {
- //msgPLacerBateau();
- Pep8.stro("colonne est incorrecte");
- Pep8.charo('\n');
- }
- **/
-
-
-        //  }while (!estValide);
 
         return estValide;
 
@@ -155,12 +128,7 @@ public class UnTableau {
         if ((int) rangee < 48 || (int) rangee > 57) {
             estValide = false;
         }
-/**
- if (!estValide) {
- Pep8.stro("nombre de rangees est incorrecte");
- Pep8.charo('\n');
- }
- **/
+
         return estValide;
     }
 
@@ -187,10 +155,10 @@ public class UnTableau {
 
     public static char [][] imprimerTableauInitial(int rangee, int colonne, char tild){
 
-        //char resDeRangeeColonne;
+
         char [][]situationInitiale = new char [rangee][colonne];
 
-        //        resDeRangeeColonne =
+
         situationInitiale[rangee-1][colonne-1] =tild;
 
         for (rangee = 0; rangee < situationInitiale.length; rangee++) {
@@ -198,8 +166,7 @@ public class UnTableau {
             Pep8.charo('|');
 
             for (colonne = 0; colonne < (situationInitiale[rangee].length); colonne++) {
-                //Pep8.charo(situationInitiale[rangee][colonne]);
-                //tild();
+
                 Pep8.charo(situationInitiale[rangee][colonne] =tild);
                 Pep8.charo(' ');
             }
@@ -234,7 +201,7 @@ public class UnTableau {
      *
      */
 
-    public static boolean stiilHasBoat(char [][]positionDesBateau){
+    public static boolean stilHasBoat(char [][]positionDesBateau){
 
         boolean resultat = false;
         for(int rangee=0; rangee<positionDesBateau.length; rangee++){
@@ -248,22 +215,69 @@ public class UnTableau {
         return resultat;
     }
 
+    /**
+     *
+     *
+    **/
 
+public static boolean detruireBateauRecursivement(char [][] positionDesBateau, int []rangeeFeu, int []colonneFeu, int j) {
+
+    boolean effect = false;
+    int [] tempRangeeFeu = new int [5000];
+    int [] tempColonneFeu = new int [5000];
+
+
+    if (positionDesBateau[rangeeFeu[j] - 1][colonneFeu[j]] == 'v' || positionDesBateau[rangeeFeu[j] - 1][colonneFeu[j]] == '>') {
+        positionDesBateau[rangeeFeu[j] - 1][colonneFeu[j]] = '*';
+
+        if(rangeeFeu[j]==9) {
+            tempRangeeFeu[j] = rangeeFeu[j]-1;
+            positionDesBateau[(tempRangeeFeu[j])][colonneFeu[j]] = 'o';
+
+            positionDesBateau[tempRangeeFeu[j]-1][colonneFeu[j]] = 'o';
+            positionDesBateau[tempRangeeFeu[j]][colonneFeu[j]-1] = 'o';
+
+        }else{
+            positionDesBateau[(rangeeFeu[j]-1)-1][colonneFeu[j]] = 'o';
+            positionDesBateau[(rangeeFeu[j]-1)][colonneFeu[j]-1] = 'o';
+            positionDesBateau[(rangeeFeu[j]-1)+1][colonneFeu[j]] = 'o';
+
+
+        }
+
+        if(rangeeFeu[j]==1) {
+            tempRangeeFeu[j] = rangeeFeu[j]+1;
+
+            positionDesBateau[(tempRangeeFeu[j] - 1) - 1][colonneFeu[j]] = 'o';
+            positionDesBateau[(tempRangeeFeu[j] - 1) ][colonneFeu[j]] = 'o';
+
+
+        }
+        positionDesBateau[rangeeFeu[j] - 1][(colonneFeu[j]) + 1] = 'o';
+
+        if(colonneFeu[j]==1) {
+            tempColonneFeu[j] = colonneFeu[j]+1;
+
+            positionDesBateau[rangeeFeu[j]][tempColonneFeu[j] - 1] = 'o';
+        }
+        effect = true;
+
+        if(positionDesBateau[(rangeeFeu[j]-1)][colonneFeu[j]+1] == 'v' ||positionDesBateau[(rangeeFeu[j]-1)][colonneFeu[j]+1] =='>' ){
+            detruireBateauRecursivement(positionDesBateau,rangeeFeu,colonneFeu, j);
+
+       }
+
+    }
+    return effect;
+}
 
     public static void main(String[] args) {
 
 
 
 
-        char lignInput = 'x';
+
         boolean estValide;
-        boolean temporary=true;
-        char taille='x';
-        char orientation='n';
-        char colonne='v';
-        int colonneConvertis;
-        char rangee='x';
-        int rangeeConvertis;
         char lignInput1 = 'x';
         char charQuitter='y';
         int n=0;
@@ -271,24 +285,16 @@ public class UnTableau {
         int j;
 
         int rangeeInitiale=9;
-        int rangeeInitialeTemp;
+
         int colonneInitiale=18;
-        int colonneInitialeTemp;
-
-        //char [][] situationInitiale = new char [rangeeInitiale][colonneInitiale];
-
-        char [][] positionDesBateau = new char [rangeeInitiale][colonneInitiale];
 
 
-        //
 
         msgBienvenue();
         afficherLetters();
         Pep8.charo('\n');
-        //imprimerTableauInitial(9, 18, '~');
 
-        positionDesBateau = imprimerTableauInitial(9, 18, '~');
-
+        char [][] positionDesBateau = imprimerTableauInitial(9, 18, '~');
 
 
         char []tailleTab=new char[1000];
@@ -296,7 +302,7 @@ public class UnTableau {
         char []colonneTab=new char[1000];
         int  []colonneTabConvertis = new int [1000];
         char []rangeeTab=new char[1000];
-        int [] rangeeTabConvertis = new int [1000];
+        int  []rangeeTabConvertis = new int [1000];
 
 
 
@@ -543,12 +549,9 @@ public class UnTableau {
                 Pep8.charo('|');
                 for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
                     c = positionDesBateau[rangeeInitiale][colonneInitiale];
-                    //if(c == 'v' || c == '>') {
+
                         Pep8.charo(c);
-                    //}
-                    //else {
-                       // tild();
-                   // }
+
                     Pep8.charo(' ');
                 }
                 Pep8.charo('|');
@@ -590,10 +593,6 @@ public class UnTableau {
                         estValide = false;
                     }
 
-                    //if(!estValide) {
-                    //msgErreurCoupsTire();
-                    // }
-
                     if(!estValide){
                         k=0;
                     }else{
@@ -602,10 +601,6 @@ public class UnTableau {
                     espaceEntreCoup = Pep8.chari();
 
                 }while(espaceEntreCoup==' ');
-
-
-
-
 
 
                 for (j = 0; j < k; j++) {
@@ -732,80 +727,42 @@ public class UnTableau {
 
                             }
 
-                            char toucheOuNon ;
+                            /**
+                             * Condition Vérifiant si les coordonnées des coups tirés sont à la même place que les positions des bateaux.
+                             */
 
-                            //toucheOuNon = positionDesBateau[(rangeeFeuConvertis[j]-1)][colonneFeuConvertis[j]];
+                            if(detruireBateauRecursivement(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
 
-                           // if(rangeeInitiale==(rangeeTabConvertis[j]-1) && colonneInitiale == colonneTabConvertis[j]) {
 
-                            if(positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] == 'v' || positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] =='>'){
-                                positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '*';
-
-// -1
-                               // if ((rangeeFeuConvertis[j] == rangeeTabConvertis[j]) && (colonneFeuConvertis[j] == colonneTabConvertis[j])) {
-                                   // positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '*';
-                                    //toucheOuNon = '*';
-                                //}
                             }else {
                                     positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = 'o';
-                                    //toucheOuNon = 'o';
+
                                 }
-                           // }
-
-                              //Si touché on imprime '*' sinon 'o'
 
 
-                            c = positionDesBateau[rangeeInitiale][colonneInitiale];  // tild
-
-                            toucheOuNon = positionDesBateau[(rangeeFeuConvertis[j]-1)][colonneFeuConvertis[j]];
-                            //toucheOuNon = [(rangeeFeuConvertis[j]-1)][colonneFeuConvertis[j]];
+                            /**
+                             * le char c est '~'
+                             */
+                            c = positionDesBateau[rangeeInitiale][colonneInitiale];
 
                             Pep8.charo(c);
 
                             Pep8.charo(' ');
 
-
-
                         }
                         Pep8.charo('|');
                         Pep8.charo('\n');
-
-
-
 
                             }
 
 
 
                         }
+                /**
+                 * on refait l'execution du programme si les coups entrés sont invalide ou s'il reste encore des bateaux non detruit
+                 */
 
-
-
-
-
-
-            }while(!estValide || stiilHasBoat(positionDesBateau)); // || nb v ou > !=0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }while(!estValide || stilHasBoat(positionDesBateau)); // || nb v ou > !=0
 
 
             /**
@@ -816,7 +773,7 @@ public class UnTableau {
                     positionDesBateau[rangeeInitiale][colonneInitiale]='~';
                 }
             }
-            //positionDesBateau = imprimerTableauInitial(9, 18, '~');
+          
 
             Pep8.charo('\n');
             msgQuitter();
