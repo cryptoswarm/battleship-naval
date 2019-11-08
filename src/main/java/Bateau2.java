@@ -1,4 +1,4 @@
-public class Tableau {
+public class Bateau2 {
 
 
     public static void msgBienvenue() {
@@ -112,27 +112,27 @@ public class Tableau {
      *
 
 
-    public static char[][] printPartBoatH(int rang, int col, char []size, char[]direction, int []rowBoat, int []colBoat ) {
-        int j = 0;
-       // char[][] situationInitiale = new char[9][18];
-        char[][] boatHorizontal = new char[rowBoat[j]][colBoat[j]];
-        //char[] boatHorizontal = new char[rowBoat[j]];
+     public static char[][] printPartBoatH(int rang, int col, char []size, char[]direction, int []rowBoat, int []colBoat ) {
+     int j = 0;
+     // char[][] situationInitiale = new char[9][18];
+     char[][] boatHorizontal = new char[rowBoat[j]][colBoat[j]];
+     //char[] boatHorizontal = new char[rowBoat[j]];
 
 
-                if (size[j] == 'g') {
-                    if (direction[j] == 'h') {
+     if (size[j] == 'g') {
+     if (direction[j] == 'h') {
 
-                        for (int i = 0; i < 5; i++) {
+     for (int i = 0; i < 5; i++) {
 
-                            [rowBoat[j]][colBoat[j] + i] = '>';
-                        }
-                    }
-                }
-            }
-        }
+     [rowBoat[j]][colBoat[j] + i] = '>';
+     }
+     }
+     }
+     }
+     }
 
-        return boatHorizontal;
-    }
+     return boatHorizontal;
+     }
 
      */
     /**
@@ -178,18 +178,18 @@ public class Tableau {
         char[][] situationInitiale = new char[9][18];
 
 
-        //afficherLetters();
-       // Pep8.charo('\n');
+        afficherLetters();
+         Pep8.charo('\n');
         for (rang = 0; rang < situationInitiale.length; rang++) {
             Pep8.deco(rang + 1);
-           Pep8.charo('|');
+            Pep8.charo('|');
 
             for (col = 0; col < (situationInitiale[rang].length); col++) {
 
-                //situationInitiale[rang][col] = '~';
+                situationInitiale[rang][col] = '~';
 
 
-                if(taille[j] =='g' || taille[j]=='m' || taille[j]=='p') {
+                //if(taille[j] =='g' || taille[j]=='m' || taille[j]=='p') {
                     if (direction[j] == 'h') {
 
                         for (int i = 0; i < nbCase; i++) {
@@ -202,14 +202,14 @@ public class Tableau {
                         }
 
                     }
-                }
+              //  }
 
                 Pep8.charo(situationInitiale[rang][col]);
                 //situationInitiale[rang][col];
 
                 Pep8.charo(' ');
             }
-           Pep8.charo('|');
+            Pep8.charo('|');
             Pep8.charo('\n');
         }
 
@@ -217,9 +217,9 @@ public class Tableau {
     }
 
     public static void main(String[] args) {
-        int rangeeInitiale =9;
-        int colonneInitiale =18;
-        char [][] positionDesBateau = new char[rangeeInitiale][colonneInitiale];
+        int rang =9;
+        int col =18;
+        char [][] positionDesBateau = new char[rang][col];
 
 
         boolean estValide;
@@ -237,15 +237,20 @@ public class Tableau {
 
 
 
-        msgPLacerBateau();
+        //msgPLacerBateau();
         Pep8.charo('\n');
 
 
 
-       // afficherLetters();
+        // afficherLetters();
         //Pep8.charo('\n');
 
-        estValide = true;
+        do {
+
+            msgPLacerBateau();
+
+            estValide = true;
+
 
         do {
 
@@ -318,7 +323,7 @@ public class Tableau {
             lignInput1 = Pep8.chari();
 
 
-        } while (lignInput1 == ' ');
+        }while(lignInput1 == ' ');
 
 
 
@@ -332,36 +337,105 @@ public class Tableau {
             rowBoatInt[j] = (int) rowBoat[j] - 48;
 
 
+           // afficherLetters();
+          //  Pep8.charo('\n');
+
+
+
+             for (rang = 0; rang < positionDesBateau.length; rang++) {
+            // Pep8.deco(rang + 1);
+             //Pep8.charo('|');
+
+             for (col = 0; col < positionDesBateau[rang].length; col++) {
+
+             //espaceDeJeu(rangeeInitiale, colonneInitiale, rowBoatInt, colBoatInt, sizeBoat, dirBoat);
+
+                 //situationInitiale[rang][col] = '~';
+                 positionDesBateau[rang][col] = '~';
+
+
+
+                 if(sizeBoat[j] =='g'){// || taille[j]=='m' || taille[j]=='p') {
+                 if (dirBoat[j] == 'h') {
+
+                     for (int i = 0; i < nbcases(sizeBoat); i++) {
+                         positionDesBateau[rowBoatInt[j]-1][colBoatInt[j]+i] = '>';
+                     }
+                 }else if (dirBoat[j]=='v'){
+
+                     for (int i = 0; i < nbcases(sizeBoat); i++) {
+                         positionDesBateau[(rowBoatInt[j]-1)+i][colBoatInt[j]] = 'v';
+                     }
+
+                 }else if(dirBoat[j]=='m') {
+                     if (dirBoat[j] == 'h') {
+
+                         for (int i = 0; i < nbcases(sizeBoat); i++) {
+                             positionDesBateau[rowBoatInt[j] - 1][colBoatInt[j] + i] = '>';
+                         }
+                     } else if (dirBoat[j] == 'v') {
+
+                         for (int i = 0; i < nbcases(sizeBoat); i++) {
+                             positionDesBateau[(rowBoatInt[j] - 1) + i][colBoatInt[j]] = 'v';
+                         }
+                     }
+                 }else if(dirBoat[j]=='p'){
+
+                     if (dirBoat[j] == 'h') {
+
+                         for (int i = 0; i < nbcases(sizeBoat); i++) {
+                             positionDesBateau[rowBoatInt[j] - 1][colBoatInt[j] + i] = '>';
+                         }
+                     } else if (dirBoat[j] == 'v') {
+
+                         for (int i = 0; i < nbcases(sizeBoat); i++) {
+                             positionDesBateau[(rowBoatInt[j] - 1) + i][colBoatInt[j]] = 'v';
+                         }
+                     }
+                 }
+
+                 }
+
+
+                 //Pep8.charo(positionDesBateau[rang][col]);
+
+            // Pep8.charo(' ');
+
+             }
+            // Pep8.charo('|');
+            // Pep8.charo('\n');
+             }
+
+
+
+             }
+
+
+       // espaceDeJeu(9, 18, rowBoatInt, colBoatInt, sizeBoat, dirBoat);
+
+
+    }while(!estValide );//|| checkBateau(tailleTab, orientationTab, rangeeTabConvertis, colonneTabConvertis));
+
+
+            // }
+            //positionDesBateau =  espaceDeJeu(9, 18, rowBoatInt, colBoatInt, sizeBoat, dirBoat);
         afficherLetters();
         Pep8.charo('\n');
+        char c;
+        for (rang = 0; rang< positionDesBateau.length; rang++) {
+            Pep8.deco(rang + 1);
+            Pep8.charo('|');
+            for (col = 0; col < positionDesBateau[rang].length; col++) {
+                c = positionDesBateau[rang][col];
 
-        /**
+                Pep8.charo(c);
 
-            for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                Pep8.deco(rangeeInitiale + 1);
-                Pep8.charo('|');
-
-                for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-
-                   espaceDeJeu(rangeeInitiale, colonneInitiale, rowBoatInt, colBoatInt, sizeBoat, dirBoat);
-
-                    Pep8.charo(' ');
-
-                }
-                Pep8.charo('|');
-                Pep8.charo('\n');
+                Pep8.charo(' ');
             }
-
-
-
+            Pep8.charo('|');
+            Pep8.charo('\n');
         }
-         **/
-
-
-   // }
-       positionDesBateau =  espaceDeJeu(9, 18, rowBoatInt, colBoatInt, sizeBoat, dirBoat);
-
+        }
     }
-}
-}
+
 
