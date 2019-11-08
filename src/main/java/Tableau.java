@@ -109,19 +109,46 @@ public class Tableau {
 
     /**
      *
-     */
+     *
 
-    public static void printPartBoatH(char []size, char[] direction ){
-        int j=0;
-        if(size[j] =='g') {
-            if (direction[j] == 'h') {
 
-                for (int i = 0; i < 5; i++) {
+    public static char[][] printPartBoatH(int rang, int col, char []size, char[]direction, int []rowBoat, int []colBoat ) {
+        int j = 0;
+       // char[][] situationInitiale = new char[9][18];
+        char[][] boatHorizontal = new char[rowBoat[j]][colBoat[j]];
+        //char[] boatHorizontal = new char[rowBoat[j]];
 
-                    situationInitiale[rowBoath][colBoath+i] = '>';
+
+                if (size[j] == 'g') {
+                    if (direction[j] == 'h') {
+
+                        for (int i = 0; i < 5; i++) {
+
+                            [rowBoat[j]][colBoat[j] + i] = '>';
+                        }
+                    }
                 }
             }
         }
+
+        return boatHorizontal;
+    }
+
+     */
+
+    public static int nbcases(char []taille){
+        int j=0;
+
+        int nbCase=0;
+        if(taille[j]=='g'){
+            nbCase=5;
+        }else if(taille[j]=='m'){
+            nbCase=3;
+        }else if(taille[j] =='p'){
+            nbCase=1;
+        }
+
+        return nbCase;
     }
 
 
@@ -131,25 +158,19 @@ public class Tableau {
 
 
     /**
-     * @param rang
-     * @param col
-     * @param rowBoath
-     * @param colBoath
-     * @return
+     * @param rang nb rangee de l'espace de jeu
+     * @param col nb de colonne de l'espace de jeu
+     * @param rowBoat  indice de rangee de bateau
+     * @param colBoat indice de colonne de bateau
+     * @return print un tableau contenant la description des bateaux.
      */
 
-    public static char[][] espaceDeJeu(int rang, int col, int rowBoath, int colBoath, char [] taille, char [] direction) {
+    public static char[][] espaceDeJeu(int rang, int col, int []rowBoat, int []colBoat, char [] taille, char [] direction) {
 
         int j=0;
+        int nbCase = nbcases(taille);
 
         char[][] situationInitiale = new char[9][18];
-
-
-
-
-
-
-
 
 
         afficherLetters();
@@ -162,14 +183,20 @@ public class Tableau {
 
                 situationInitiale[rang][col] = '~';
 
-                if(taille[j] =='g') {
-                    if (direction[j] == 'h') {
 
-                        for (int i = 0; i < 5; i++) {
+                if(taille[j] =='g' || taille[j]=='m' || taille[j]=='p') {
+                   if (direction[j] == 'h') {
 
-                            situationInitiale[rowBoath][colBoath+i] = '>';
-                        }
-                    }
+                       for (int i = 0; i < nbCase; i++) {
+                            situationInitiale[rowBoat[j]-1][colBoat[j]+i] = '>';
+                       }
+                   }else if (direction[j]=='v'){
+
+                       for (int i = 0; i < nbCase; i++) {
+                           situationInitiale[(rowBoat[j]-1)+i][colBoat[j]] = 'v';
+                       }
+
+                   }
                 }
 
                 Pep8.charo(situationInitiale[rang][col]);
@@ -188,15 +215,15 @@ public class Tableau {
 
         boolean estValide;
         int n =0;
-        int j=0;
+        int j;
         char lignInput1;
 
         char[] sizeBoat = new char[1000];
         char[] dirBoat = new char[1000];
-        char[] colonneTab = new char[1000];
-        int[] colonneTabConvertis = new int[1000];
-        char[] rangeeTab = new char[1000];
-        int[] rangeeTabConvertis = new int[1000];
+        char[] colBoat = new char[1000];
+        int[] colBoatInt = new int[1000];
+        char[] rowBoat = new char[1000];
+        int[] rowBoatInt = new int[1000];
 
 
         //   do { /** boucle pour arreter le programme quand on pese sur la touche entrer
@@ -222,9 +249,7 @@ public class Tableau {
 
             if (!checkTaille(sizeBoat[n])) {
 
-
                 estValide = false;
-
 
             }
 
@@ -237,9 +262,7 @@ public class Tableau {
 
             if (!checkOriontation(dirBoat[n])) {
 
-
                 estValide = false;
-
 
             }
 
@@ -247,13 +270,11 @@ public class Tableau {
              * le 3eme char est la colonne
              */
 
-            colonneTab[n] = Pep8.chari();
+            colBoat[n] = Pep8.chari();
 
-            if (!checkLetterColonne(colonneTab[n])) {
-
+            if (!checkLetterColonne(colBoat[n])) {
 
                 estValide = false;
-
 
             }
 
@@ -261,13 +282,11 @@ public class Tableau {
              * le 4eme char est la rangee
              */
 
-            rangeeTab[n] = Pep8.chari();
+            rowBoat[n] = Pep8.chari();
 
-            if (!checkNombreRanger(rangeeTab[n])) {
-
+            if (!checkNombreRanger(rowBoat[n])) {
 
                 estValide = false;
-
 
             }
 
@@ -288,11 +307,19 @@ public class Tableau {
         } while (lignInput1 == ' ');
 
 
-        // }
+
+
         for(j=0; j<n; j++) {
 
-            espaceDeJeu(9, 18, 3, 5, sizeBoat, dirBoat);
+            colBoatInt[j] = (int) colBoat[j] - 65;
+            rowBoatInt[j] = (int) rowBoat[j] - 48;
         }
+
+
+            espaceDeJeu(9, 18, rowBoatInt, colBoatInt, sizeBoat, dirBoat);
+
+
+
 
 
     }
