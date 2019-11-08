@@ -12,7 +12,7 @@
  */
 
 
-public class BatailleReal {
+public class Batnav3 {
 
 
     /**
@@ -186,7 +186,7 @@ public class BatailleReal {
 
 
 
-    /* *
+     /* *
      * methode affichant msg erreur lors les coups entré sont invalides
      * n'a pas été utilisée
      */
@@ -218,7 +218,7 @@ public class BatailleReal {
         }
         if( tailleTab[j] =='m'){
             if(orint[j]=='v'){
-                if(rangee[j]>=8){
+                if(rangee[j]>7){
                     res=true;
                 }
             }
@@ -273,7 +273,7 @@ public class BatailleReal {
     }
 
 
-    /**
+     /**
      * @param positionDesBateau tableau de l'espace de jeu
      * @param rangFeu  le coup est definit par la rangee
      * @param colFeu  le coup est definit par la colonne
@@ -281,51 +281,54 @@ public class BatailleReal {
      * @return boolean, determinant si les coups touches les parties de bateau ou non.
      */
 
-    public static boolean detruireBateauRecursivement(char [][] positionDesBateau, int []rangFeu, int []colFeu, int j) {
+public static boolean destroyBoat(char [][] positionDesBateau, int []rangFeu, int []colFeu, int j) {
 
-        boolean effect=false;
-        int[] tempRangeeFeu = new int[5000];
-        int[] tempColonneFeu = new int[5000];
-        tempRangeeFeu = rangFeu;
-        tempColonneFeu = colFeu;
+    boolean effect = false;
+    int[] tempRangeeFeu = new int[5000];
+    int[] tempColonneFeu = new int[5000];
+    tempRangeeFeu = rangFeu;
+    tempColonneFeu = colFeu;
 
-        for (int rangee = 0; rangee < positionDesBateau.length; rangee++) {
-            for (int colonne = 0; colonne < positionDesBateau[rangee].length; colonne++) {
+    for (int rangee = 0; rangee < positionDesBateau.length; rangee++) {
+        for (int colonne = 0; colonne < positionDesBateau[rangee].length; colonne++) {
 
+            if ((rangFeu[j] >0 || rangFeu[j]<=9) && (colFeu[j]>0 || colFeu[j]<18) ) {
 
-                //   if ((rangFeu[j] > 0 || rangFeu[j] <= 9) && (colFeu[j] > 0 || colFeu[j] < 18)) {
-
-                /*if (positionDesBateau[rangFeu[j]-1][colFeu[j]] == '~') {
-                    positionDesBateau[rangFeu[j]-1][(colFeu[j])] = 'o';
-                }*/
-
-
-                if (positionDesBateau[rangee][colonne] == 'v' || positionDesBateau[rangee][colonne] == '>') {
-                //if (rangFeu[j] - 1 == rangee && colFeu[j] == colonne) {
-                    //if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
-
-                        //positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
-                        positionDesBateau[rangFeu[j]-1][colFeu[j]] = '*';
-                        //detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-
-                        // positionDesBateau[rangFeu[j]][colFeu[j]] = 'o';
-                        //positionDesBateau[rangFeu[j]][colFeu[j] + 1] = 'o';
-                        // positionDesBateau[rangFeu[j] - 1][colFeu[j] + 1] = 'o';
+                if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
+                    positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
                     effect=true;
+                    destroyBoat(positionDesBateau, rangFeu, colFeu, j);
 
-                       // positionDesBateau[rangFeu[j] - 1][colFeu[j]] = 'n';
-                   // positionDesBateau[rangee][colonne] = 'n';
-                //if (positionDesBateau[rangFeu[j]][colFeu[j]] == '~') {
-                  //  detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                    // }
-               // //effect=false;
+
+                }
+                else if(positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '~' ) {
+                    positionDesBateau[rangFeu[j] - 1][(colFeu[j])] = 'o';
+                    effect = false;
+                }
+
+                if (rangFeu[j] > 1 && rangFeu[j] < 9 && colFeu[j]>1 && colFeu[j]<=18) {
+                    if (positionDesBateau[rangFeu[j] - 2][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 2][colFeu[j]] == '>') {
+                        positionDesBateau[rangFeu[j] - 2][colFeu[j]] = '*';
+                        effect=true;
                     }
-
-
+                    if (positionDesBateau[rangFeu[j]][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j]][colFeu[j]] == '>') {
+                        positionDesBateau[rangFeu[j]][colFeu[j]] = '*';
+                        effect=true;
+                    }
+                    if (positionDesBateau[rangFeu[j] - 1][colFeu[j] - 1] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j] - 1] == '>') {
+                        positionDesBateau[rangFeu[j] - 1][colFeu[j] - 1] = '*';
+                        effect=true;
+                    }
+                    if (positionDesBateau[rangFeu[j] - 1][colFeu[j] ] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j] ] == '>') {
+                        positionDesBateau[rangFeu[j] - 1][colFeu[j] ] = '*';
+                        effect=true;
+                    }
+                }
             }
-        }
-        return effect;
     }
+}
+    return effect;
+}
 
 
 
@@ -372,7 +375,6 @@ public class BatailleReal {
             do {
 
                 msgPLacerBateau();
-                Pep8.charo('\n');
 
                 estValide = true;
 
@@ -593,7 +595,7 @@ public class BatailleReal {
 
                     }
                 }
-                // }while(!estValide);
+           // }while(!estValide);
             }while(!estValide || checkBateau(tailleTab, orientationTab, rangeeTabConvertis, colonneTabConvertis));
 
             /**
@@ -611,7 +613,7 @@ public class BatailleReal {
                 for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
                     c = positionDesBateau[rangeeInitiale][colonneInitiale];
 
-                    Pep8.charo(c);
+                        Pep8.charo(c);
 
                     Pep8.charo(' ');
                 }
@@ -749,11 +751,7 @@ public class BatailleReal {
 
                                         for (int i = 0; i < 3; i++) {
                                             if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                               // if(rangeeFeu[j]-1== rangeeTabConvertis[j]-1  && colonneFeu ) {
-
-                                               // }else {
-                                                    positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                              //  }
+                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
                                             }
                                         }
@@ -803,23 +801,13 @@ public class BatailleReal {
                              **/
 
 
-                            if(detruireBateauRecursivement(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
-                                positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '$';
-
-                            }
-                               // positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '#';
-
-                            if(positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] !='>' || positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] !='v'){
-                                positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '@';
-                            }
-
-
+                               if(destroyBoat(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j));
 
 
                             /**
                              * le char c est '~'
                              */
-                           c= positionDesBateau[rangeeInitiale][colonneInitiale];
+                            c = positionDesBateau[rangeeInitiale][colonneInitiale];
 
                            Pep8.charo(c);
 
@@ -829,11 +817,11 @@ public class BatailleReal {
                         Pep8.charo('|');
                         Pep8.charo('\n');
 
-                    }
+                            }
 
 
 
-                }
+                        }
                 /**
                  * on refait l'execution du programme si les coups entrés sont invalide ou s'il reste encore des bateaux non detruit
                  */
@@ -855,9 +843,9 @@ public class BatailleReal {
             msgQuitter();
             charQuitter = Pep8.chari();
             if(charQuitter=='\n') {
-                n = 0;
-                k=0;
-            }
+               n = 0;
+               k=0;
+              }
         } while (charQuitter == '\n');
 
     }

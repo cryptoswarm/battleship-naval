@@ -12,7 +12,7 @@
  */
 
 
-public class BatailleReal {
+public class Batnav6 {
 
 
     /**
@@ -194,63 +194,6 @@ public class BatailleReal {
         Pep8.stro("les coups tiré sont à l'exterieur de l'éspace de jeu");
     }
 
-    /**
-     *
-     * @param tailleTab taille du bateau
-     * @param orint  orientation
-     * @param rangee nb de rangee
-     * @param col nb de colonne
-     * @return  le boolean est utilisé pour repeter la demande de rentrer les bateaux s'ils depassent l'espace de jeu.
-     */
-
-    public static boolean checkBateau( char []tailleTab, char []orint, int []rangee, int []col){
-        int j=0;
-        boolean res=false;
-
-        if(tailleTab[j]=='g'){
-
-            if(orint[j]=='v'){
-                if(rangee[j]>=6 ){
-                    res=true;
-
-                }
-            }
-        }
-        if( tailleTab[j] =='m'){
-            if(orint[j]=='v'){
-                if(rangee[j]>=8){
-                    res=true;
-                }
-            }
-        }
-
-
-        if(tailleTab[j]=='g' ){
-            if(orint[j]=='h'){
-                if(col[j]>13){
-                    res=true;
-                }
-            }
-        }
-
-
-        if( tailleTab[j] =='m'){
-            if(orint[j]=='h'){
-                if(col[j]>15){
-                    res=true;
-                }
-            }
-        }
-        if(res){
-            Pep8.charo('\n');
-            Pep8.stro("La description ou la position de bateau n'est pas conforme au format.  Il'est à l'exterieur de l'espace de jeu");
-            Pep8.charo('\n');
-        }
-        return res;
-
-    }
-
-
 
     /**
      *
@@ -281,47 +224,126 @@ public class BatailleReal {
      * @return boolean, determinant si les coups touches les parties de bateau ou non.
      */
 
+
+    /**
+     *
+     * @param tailleTab taille du bateau
+     * @param orint  orientation
+     * @param rangee nb de rangee
+     * @param col nb de colonne
+     * @return  le boolean est utilisé pour repeter la demande de rentrer les bateaux s'ils depassent l'espace de jeu.
+     */
+
+    public static boolean checkBateau( char []tailleTab, char []orint, int []rangee, int []col){
+        int j=0;
+        boolean res=false;
+
+        if(tailleTab[j]=='g'){
+
+            if(orint[j]=='v'){
+                if(rangee[j]>=6 ){
+                    res=true;
+                    Pep8.stro("le bateaux avec ces grandeur est à l'exterieur de l'espace de jeu");
+                }
+            }
+        }
+        if( tailleTab[j] =='m'){
+            if(orint[j]=='v'){
+                if(rangee[j]>7){
+                    res=true;
+                }
+            }
+        }
+
+
+        if(tailleTab[j]=='g' ){
+            if(orint[j]=='h'){
+                if(col[j]>13){
+                    res=true;
+                }
+            }
+        }
+
+
+        if( tailleTab[j] =='m'){
+            if(orint[j]=='h'){
+                if(col[j]>15){
+                    res=true;
+                }
+            }
+        }
+        return res;
+
+    }
+
+
     public static boolean detruireBateauRecursivement(char [][] positionDesBateau, int []rangFeu, int []colFeu, int j) {
 
-        boolean effect=false;
+        boolean effect = false;
         int[] tempRangeeFeu = new int[5000];
         int[] tempColonneFeu = new int[5000];
-        tempRangeeFeu = rangFeu;
-        tempColonneFeu = colFeu;
+
 
         for (int rangee = 0; rangee < positionDesBateau.length; rangee++) {
             for (int colonne = 0; colonne < positionDesBateau[rangee].length; colonne++) {
 
-
-                //   if ((rangFeu[j] > 0 || rangFeu[j] <= 9) && (colFeu[j] > 0 || colFeu[j] < 18)) {
-
-                /*if (positionDesBateau[rangFeu[j]-1][colFeu[j]] == '~') {
-                    positionDesBateau[rangFeu[j]-1][(colFeu[j])] = 'o';
-                }*/
+                if ((rangFeu[j] >0 || rangFeu[j]<=9) && (colFeu[j]>0 || colFeu[j]<=18) ) {
 
 
-                if (positionDesBateau[rangee][colonne] == 'v' || positionDesBateau[rangee][colonne] == '>') {
-                //if (rangFeu[j] - 1 == rangee && colFeu[j] == colonne) {
-                    //if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
+                    if (positionDesBateau[rangee][colonne] == 'v' || positionDesBateau[rangee][colonne] == '>') {
+                        //  positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
 
-                        //positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
-                        positionDesBateau[rangFeu[j]-1][colFeu[j]] = '*';
-                        //detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
+                        if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
 
-                        // positionDesBateau[rangFeu[j]][colFeu[j]] = 'o';
-                        //positionDesBateau[rangFeu[j]][colFeu[j] + 1] = 'o';
-                        // positionDesBateau[rangFeu[j] - 1][colFeu[j] + 1] = 'o';
-                    effect=true;
+                            positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
 
-                       // positionDesBateau[rangFeu[j] - 1][colFeu[j]] = 'n';
-                   // positionDesBateau[rangee][colonne] = 'n';
-                //if (positionDesBateau[rangFeu[j]][colFeu[j]] == '~') {
-                  //  detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                    // }
-               // //effect=false;
+                            if (rangFeu[j] > 1 && rangFeu[j] < 9) {
+
+
+                                if (positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] == '>' || positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] == 'v') {
+                                    positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] = '*';
+                                } else {
+                                    positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] = 'o';
+                                }
+                                if (positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] == '>' || positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] == 'v') {
+                                    positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] = '*';
+                                } else {
+                                    positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] = 'o';
+                                }
+                                if (positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] == 'v' || positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] == '>') {
+                                    positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] = '*';
+                                } else {
+                                    positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] = 'o';
+                                }
+
+                            } else if (rangFeu[j] == 9) {
+                                tempRangeeFeu[j] = rangFeu[j] - 1;
+                                positionDesBateau[(tempRangeeFeu[j])][colFeu[j]] = '*';
+
+                                positionDesBateau[tempRangeeFeu[j] - 1][colFeu[j]] = 'o';
+                                positionDesBateau[tempRangeeFeu[j]][colFeu[j] - 1] = 'o';
+
+                            } else if (rangFeu[j] == 1) {
+                                tempRangeeFeu[j] = rangFeu[j] + 1;
+
+                                positionDesBateau[(tempRangeeFeu[j] - 1) - 1][colFeu[j]] = 'o';
+                                positionDesBateau[(tempRangeeFeu[j] - 1)][colFeu[j]] = 'o';
+
+
+                            }
+                            positionDesBateau[rangFeu[j] - 1][(colFeu[j]) + 1] = 'o';
+
+                            if (colFeu[j] == 1) {
+                                tempColonneFeu[j] = colFeu[j] + 1;
+
+                                positionDesBateau[rangFeu[j]][tempColonneFeu[j] - 1] = 'o';
+                            }
+                            effect = true;
+
+
+                        }
                     }
-
-
+                }
             }
         }
         return effect;
@@ -372,7 +394,6 @@ public class BatailleReal {
             do {
 
                 msgPLacerBateau();
-                Pep8.charo('\n');
 
                 estValide = true;
 
@@ -593,7 +614,7 @@ public class BatailleReal {
 
                     }
                 }
-                // }while(!estValide);
+                //}while(!estValide);
             }while(!estValide || checkBateau(tailleTab, orientationTab, rangeeTabConvertis, colonneTabConvertis));
 
             /**
@@ -749,11 +770,7 @@ public class BatailleReal {
 
                                         for (int i = 0; i < 3; i++) {
                                             if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                               // if(rangeeFeu[j]-1== rangeeTabConvertis[j]-1  && colonneFeu ) {
-
-                                               // }else {
-                                                    positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                              //  }
+                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
                                             }
                                         }
@@ -804,13 +821,10 @@ public class BatailleReal {
 
 
                             if(detruireBateauRecursivement(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
-                                positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '$';
 
-                            }
-                               // positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '#';
+                            } else {
+                                positionDesBateau[rangeeFeuConvertis[j] - 1][colonneFeuConvertis[j]] = 'o';
 
-                            if(positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] !='>' || positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] !='v'){
-                                positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = '@';
                             }
 
 
@@ -819,9 +833,9 @@ public class BatailleReal {
                             /**
                              * le char c est '~'
                              */
-                           c= positionDesBateau[rangeeInitiale][colonneInitiale];
+                            c = positionDesBateau[rangeeInitiale][colonneInitiale];
 
-                           Pep8.charo(c);
+                            Pep8.charo(c);
 
                             Pep8.charo(' ');
 

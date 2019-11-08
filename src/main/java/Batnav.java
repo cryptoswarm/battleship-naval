@@ -1,5 +1,23 @@
-public class UnTableau {
+/**
+ * Le code suivant represente un jeu de BatNav2 navale
+ * l'espace du jeu est constitué de 9 rangées et 18 colonnes
+ * Au debut le code affiche un msg de bienvenu suivis d'un tableau remplit avec des '~'
+ * Ensuite, un msg demandant à l'utilisateur d'entrer des bateaux selon un format
+ * si le format n'est pas resptée, un msg d'erreur va etre affiché en demandant a l'utilisateur de rentrer encoree une fois des bateaux
+ *  Ensuite, un msg s'affiche demandant a l'utilisateur d'entrer des coups
+ *  si les coups tiré ne sont pas valide, l'utilisateur serait invité à rentrer des coups
+ *  Le programme est fonctionnel sauf qu'il affiche 'o' au lieu de l'*' pour les parties de bateaux touchées.
+ *  Le programme s'execute en boucle jusqu'à ce qu'on clique sur la touche entrer.
+ *
+ */
 
+
+public class Batnav {
+
+
+    /**
+     * Msg demandant de placer les tableaux
+     */
 
     public static void msgPLacerBateau() {
         Pep8.stro("Entrer la description et la position des bateaux\n" +
@@ -8,8 +26,10 @@ public class UnTableau {
     }
 
 
+
+
     public static void msgBienvenue() {
-        Pep8.stro("Bienvenue au jeu de bataille navale!");
+        Pep8.stro("Bienvenue au jeu de BatNav2 navale!");
         Pep8.charo('\n');
     }
 
@@ -20,9 +40,9 @@ public class UnTableau {
         char colonne = 'A';
         Pep8.charo(' ');
         while (colonne <= 'R') {
-            //Pep8.charo('');
+
             Pep8.stro(" " + colonne);
-            //Pep8.charo(colonne);
+
             colonne = (char) (colonne + 1);
         }
 
@@ -125,7 +145,7 @@ public class UnTableau {
     public static boolean checkNombreRanger(char rangee) {
         boolean estValide;
         estValide = true;
-        if ((int) rangee < 48 || (int) rangee > 57) {
+        if ((int) rangee < 49 || (int) rangee > 57) {
             estValide = false;
         }
 
@@ -133,25 +153,13 @@ public class UnTableau {
     }
 
 
-
-
-
-
     /**
-     * Methode imprimant un beateau a deux dimensions de 9 rangees et 18 colonnes
+     *
+     * @param rangee   rangee du tableau
+     * @param colonne colonne du tableau
+     * @param tild  le char '~'
+     * @return  imprime le tableau du jeu
      */
-
-
-    /**
-     * imprimer le caractere tild
-
-
-     public static void tild() {
-     Pep8.charo('~');
-     }
-
-     **/
-
 
     public static char [][] imprimerTableauInitial(int rangee, int colonne, char tild){
 
@@ -176,20 +184,11 @@ public class UnTableau {
         return situationInitiale;
     }
 
-    /**
-
-     public static void main(String[] args) {
-     int rangeeInitiale=9;
-     int colonneInitiale=18;
-     int rangeePositionBateau;
-     int colonnePositionBateau;
-     char charSituationInitiale ='~';
-     imprimerTableauInitial(9,18, charSituationInitiale);
 
 
      /* *
      * methode affichant msg erreur lors les coups entré sont invalides
-     *
+     * n'a pas été utilisée
      */
     public static void msgErreurCoupsTire(){
         Pep8.stro("les coups tiré sont à l'exterieur de l'éspace de jeu");
@@ -198,7 +197,8 @@ public class UnTableau {
 
     /**
      *
-     *
+     * @param positionDesBateau tableau de l'espace de jeu
+     * @return  boolean, s'il reste des parties des bateau non detruits ou non
      */
 
     public static boolean stilHasBoat(char [][]positionDesBateau){
@@ -215,61 +215,141 @@ public class UnTableau {
         return resultat;
     }
 
+
+     /**
+     * @param positionDesBateau tableau de l'espace de jeu
+     * @param rangFeu  le coup est definit par la rangee
+     * @param colFeu  le coup est definit par la colonne
+     * @param j  j est utilisé pour parcourire le tableau stockant les de coups tirés.
+     * @return boolean, determinant si les coups touches les parties de bateau ou non.
+     */
+
+
     /**
      *
-     *
-    **/
+     * @param tailleTab taille du bateau
+     * @param orint  orientation
+     * @param rangee nb de rangee
+     * @param col nb de colonne
+     * @return  le boolean est utilisé pour repeter la demande de rentrer les bateaux s'ils depassent l'espace de jeu.
+     */
 
-public static boolean detruireBateauRecursivement(char [][] positionDesBateau, int []rangeeFeu, int []colonneFeu, int j) {
+    public static boolean checkBateau( char []tailleTab, char []orint, int []rangee, int []col){
+        int j=0;
+        boolean res=false;
 
-    boolean effect = false;
-    int [] tempRangeeFeu = new int [5000];
-    int [] tempColonneFeu = new int [5000];
+        if(tailleTab[j]=='g'){
 
-
-    if (positionDesBateau[rangeeFeu[j] - 1][colonneFeu[j]] == 'v' || positionDesBateau[rangeeFeu[j] - 1][colonneFeu[j]] == '>') {
-        positionDesBateau[rangeeFeu[j] - 1][colonneFeu[j]] = '*';
-
-        if(rangeeFeu[j]==9) {
-            tempRangeeFeu[j] = rangeeFeu[j]-1;
-            positionDesBateau[(tempRangeeFeu[j])][colonneFeu[j]] = 'o';
-
-            positionDesBateau[tempRangeeFeu[j]-1][colonneFeu[j]] = 'o';
-            positionDesBateau[tempRangeeFeu[j]][colonneFeu[j]-1] = 'o';
-
-        }else{
-            positionDesBateau[(rangeeFeu[j]-1)-1][colonneFeu[j]] = 'o';
-            positionDesBateau[(rangeeFeu[j]-1)][colonneFeu[j]-1] = 'o';
-            positionDesBateau[(rangeeFeu[j]-1)+1][colonneFeu[j]] = 'o';
-
-
+            if(orint[j]=='v'){
+                if(rangee[j]>=6 ){
+                    res=true;
+                    Pep8.stro("le bateaux avec ces grandeur est à l'exterieur de l'espace de jeu");
+                }
+            }
+        }
+        if( tailleTab[j] =='m'){
+            if(orint[j]=='v'){
+                if(rangee[j]>7){
+                    res=true;
+                }
+            }
         }
 
-        if(rangeeFeu[j]==1) {
-            tempRangeeFeu[j] = rangeeFeu[j]+1;
 
-            positionDesBateau[(tempRangeeFeu[j] - 1) - 1][colonneFeu[j]] = 'o';
-            positionDesBateau[(tempRangeeFeu[j] - 1) ][colonneFeu[j]] = 'o';
-
-
+        if(tailleTab[j]=='g' ){
+            if(orint[j]=='h'){
+                if(col[j]>13){
+                    res=true;
+                }
+            }
         }
-        positionDesBateau[rangeeFeu[j] - 1][(colonneFeu[j]) + 1] = 'o';
 
-        if(colonneFeu[j]==1) {
-            tempColonneFeu[j] = colonneFeu[j]+1;
 
-            positionDesBateau[rangeeFeu[j]][tempColonneFeu[j] - 1] = 'o';
+        if( tailleTab[j] =='m'){
+            if(orint[j]=='h'){
+                if(col[j]>15){
+                    res=true;
+                }
+            }
         }
-        effect = true;
-
-        if(positionDesBateau[(rangeeFeu[j]-1)][colonneFeu[j]+1] == 'v' ||positionDesBateau[(rangeeFeu[j]-1)][colonneFeu[j]+1] =='>' ){
-            detruireBateauRecursivement(positionDesBateau,rangeeFeu,colonneFeu, j);
-
-       }
+        return res;
 
     }
+
+
+    public static boolean detruireBateauRecursivement(char [][] positionDesBateau, int []rangFeu, int []colFeu, int j) {
+
+    boolean effect = false;
+    int[] tempRangeeFeu = new int[5000];
+    int[] tempColonneFeu = new int[5000];
+
+
+    for (int rangee = 0; rangee < positionDesBateau.length; rangee++) {
+        for (int colonne = 0; colonne < positionDesBateau[rangee].length; colonne++) {
+
+            if ((rangFeu[j] >0 || rangFeu[j]<=9) && (colFeu[j]>0 || colFeu[j]<=18) ) {
+
+
+                if (positionDesBateau[rangee][colonne] == 'v' || positionDesBateau[rangee][colonne] == '>') {
+                  //  positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
+
+                    if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
+
+                        positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
+
+                        if (rangFeu[j] > 1 && rangFeu[j] < 9) {
+
+
+                            if (positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] == '>' || positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] == 'v') {
+                                positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] = '*';
+                            } else {
+                                positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] = 'o';
+                            }
+                            if (positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] == '>' || positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] == 'v') {
+                                positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] = '*';
+                            } else {
+                                positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] = 'o';
+                            }
+                            if (positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] == 'v' || positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] == '>') {
+                                positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] = '*';
+                            } else {
+                                positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] = 'o';
+                            }
+
+                        } else if (rangFeu[j] == 9) {
+                            tempRangeeFeu[j] = rangFeu[j] - 1;
+                            positionDesBateau[(tempRangeeFeu[j])][colFeu[j]] = '*';
+
+                            positionDesBateau[tempRangeeFeu[j] - 1][colFeu[j]] = 'o';
+                            positionDesBateau[tempRangeeFeu[j]][colFeu[j] - 1] = 'o';
+
+                        } else if (rangFeu[j] == 1) {
+                            tempRangeeFeu[j] = rangFeu[j] + 1;
+
+                            positionDesBateau[(tempRangeeFeu[j] - 1) - 1][colFeu[j]] = 'o';
+                            positionDesBateau[(tempRangeeFeu[j] - 1)][colFeu[j]] = 'o';
+
+
+                        }
+                        positionDesBateau[rangFeu[j] - 1][(colFeu[j]) + 1] = 'o';
+
+                        if (colFeu[j] == 1) {
+                            tempColonneFeu[j] = colFeu[j] + 1;
+
+                            positionDesBateau[rangFeu[j]][tempColonneFeu[j] - 1] = 'o';
+                        }
+                        effect = true;
+
+
+                    }
+                }
+            }
+    }
+}
     return effect;
 }
+
+
 
     public static void main(String[] args) {
 
@@ -278,15 +358,15 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
 
 
         boolean estValide;
-        char lignInput1 = 'x';
-        char charQuitter='y';
+        char lignInput1;
+        char charQuitter;
         int n=0;
         int k=0;
         int j;
 
-        int rangeeInitiale=9;
+        int rangeeInitiale;
 
-        int colonneInitiale=18;
+        int colonneInitiale;
 
 
 
@@ -445,6 +525,7 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
                                         }
                                     }
 
+
                                     /**
                                      * Si le bateau est grand, orienter verticalement
                                      * et que la rangee commence à 6, le bateau va pas etre affiché.
@@ -533,7 +614,8 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
 
                     }
                 }
-            }while(!estValide);
+           //}while(!estValide);
+        }while(!estValide || checkBateau(tailleTab, orientationTab, rangeeTabConvertis, colonneTabConvertis));
 
             /**
              * Affichage de l'espace de jeu mis à jour
@@ -568,11 +650,14 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
 
 
             char  espaceEntreCoup;
-            //int k;
             char []colonneFeu = new char[1000];
             int [] colonneFeuConvertis = new int [1000];
             char []rangeeFeu = new char [1000];
             int [] rangeeFeuConvertis = new int [1000];
+
+            /**
+             * Verification des coups entrés.
+             */
 
 
 
@@ -606,14 +691,16 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
                 for (j = 0; j < k; j++) {
 
 
+                    /**
+                     * conversion des chars en entiers
+                     */
+
                     colonneFeuConvertis[j] = (int) colonneFeu[j] - 65;
                     Pep8.charo('\n');
-                    Pep8.stro("colonne de feu tiré est : " + colonneFeuConvertis[j]);
 
                     rangeeFeuConvertis[j] = (int) rangeeFeu[j] - 48;
                     Pep8.charo('\n');
-                    Pep8.stro("rangee de feu tiré est : " + rangeeFeuConvertis[j]);
-                    Pep8.charo('\n');
+
 
 
                     /**
@@ -653,7 +740,7 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
                                                 positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
                                             } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
-                                                // }
+
                                                 positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
                                             }
                                         }
@@ -729,15 +816,18 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
 
                             /**
                              * Condition Vérifiant si les coordonnées des coups tirés sont à la même place que les positions des bateaux.
-                             */
 
-                            if(detruireBateauRecursivement(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
+                             **/
 
 
-                            }else {
-                                    positionDesBateau[rangeeFeuConvertis[j]-1][colonneFeuConvertis[j]] = 'o';
+                               if(detruireBateauRecursivement(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
+
+                              } else {
+                                 positionDesBateau[rangeeFeuConvertis[j] - 1][colonneFeuConvertis[j]] = 'o';
 
                                 }
+
+
 
 
                             /**
@@ -745,7 +835,7 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
                              */
                             c = positionDesBateau[rangeeInitiale][colonneInitiale];
 
-                            Pep8.charo(c);
+                           Pep8.charo(c);
 
                             Pep8.charo(' ');
 
@@ -762,7 +852,7 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
                  * on refait l'execution du programme si les coups entrés sont invalide ou s'il reste encore des bateaux non detruit
                  */
 
-            }while(!estValide || stilHasBoat(positionDesBateau)); // || nb v ou > !=0
+            }while(!estValide || stilHasBoat(positionDesBateau));
 
 
             /**
@@ -773,7 +863,7 @@ public static boolean detruireBateauRecursivement(char [][] positionDesBateau, i
                     positionDesBateau[rangeeInitiale][colonneInitiale]='~';
                 }
             }
-          
+
 
             Pep8.charo('\n');
             msgQuitter();

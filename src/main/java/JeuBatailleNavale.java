@@ -4,7 +4,7 @@ public class JeuBatailleNavale {
     //String[][] tableauNavale = new String[9][18];
 
     public static void msgBienvenue(){
-        Pep8.stro("Bienvenue au jeu de bataille navale!");
+        Pep8.stro("Bienvenue au jeu de BatNav2 navale!");
         Pep8.charo('\n');
     }
 
