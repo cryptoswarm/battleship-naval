@@ -194,19 +194,100 @@ public class Batnav5 {
         Pep8.stro("les coups tiré sont à l'exterieur de l'éspace de jeu");
     }
 
+    /**
+     *
+     * @param sizeBoat taille du bateau
+     * @param orint  orientation
+     * @param rangee nb de rangee
+     * @param col nb de colonne
+     * @return  le boolean est utilisé pour repeter la demande de rentrer les bateaux s'ils depassent l'espace de jeu.
+     */
+
+    public static boolean checkBateau( char []sizeBoat, char []orint, int []rangee, int []col){
+        int j=0;
+        boolean res=false;
+
+        if(sizeBoat[j]=='g'){
+
+            if(orint[j]=='v'){
+                if(rangee[j]>=6 ){
+                    res=true;
+
+                }
+            }
+        }
+        if( sizeBoat[j] =='m'){
+            if(orint[j]=='v'){
+                if(rangee[j]>7){
+                    res=true;
+                }
+            }
+        }
+
+
+        if(sizeBoat[j]=='g' ){
+            if(orint[j]=='h'){
+                if(col[j]>13){
+                    res=true;
+                }
+            }
+        }
+
+
+        if( sizeBoat[j] =='m'){
+            if(orint[j]=='h'){
+                if(col[j]>15){
+                    res=true;
+                }
+            }
+        }
+        if(res){
+            Pep8.charo('\n');
+            Pep8.stro("La description ou la position de bateau n'est pas conforme au format.  Il'est à l'exterieur de l'espace de jeu");
+            Pep8.charo('\n');
+        }
+        return res;
+
+    }
 
     /**
      *
-     * @param positionDesBateau tableau de l'espace de jeu
+     */
+    public static int hasBoatOnH(char [][]boatPosition, int []rowFeu){
+        int j=0;
+        int nbOfBoatOnLine =0;
+        int rangee= rowFeu[j];
+        int colonne =0;
+
+        while (colonne<18){
+
+            do{
+            if((boatPosition[rangee][colonne])=='>' ){
+                  nbOfBoatOnLine = nbOfBoatOnLine+1;
+
+                }
+                colonne = colonne+1;
+            }while(boatPosition[rangee][colonne-1]!='~');
+
+        }
+
+
+        return nbOfBoatOnLine;
+    }
+
+
+    /**
+     *
+     * @param boatPosition tableau de l'espace de jeu
      * @return  boolean, s'il reste des parties des bateau non detruits ou non
      */
 
-    public static boolean stilHasBoat(char [][]positionDesBateau){
+    public static boolean stilHasBoat(char [][]boatPosition){
 
         boolean resultat = false;
-        for(int rangee=0; rangee<positionDesBateau.length; rangee++){
-            for(int colonne=0; colonne<positionDesBateau[rangee].length; colonne++){
-                if(positionDesBateau[rangee][colonne]=='v' ||positionDesBateau[rangee][colonne]=='>' ){
+        for(int rangee=0; rangee<boatPosition.length; rangee++){
+            for(int colonne=0; colonne<boatPosition[rangee].length; colonne++){
+                if(boatPosition[rangee][colonne]=='v' || boatPosition[rangee][colonne]=='>' ){
                     resultat=true;
                 }
             }
@@ -215,72 +296,51 @@ public class Batnav5 {
         return resultat;
     }
 
-
     /**
-     * @param positionDesBateau tableau de l'espace de jeu
-     * @param rangFeu  le coup est definit par la rangee
-     * @param colFeu  le coup est definit par la colonne
-     * @param j  j est utilisé pour parcourire le tableau stockant les de coups tirés.
-     * @return boolean, determinant si les coups touches les parties de bateau ou non.
+     *
+     * @param boatPosition
+     * @param rowBoatInt
+     * @return  nb de parties de bateau par rangee.
      */
 
-    public static boolean detruireBateauRecursivement(char [][] positionDesBateau, int []rangFeu, int []colFeu, int j) {
+    public static int ShipCount(int[][]boatPosition, int rowBoatInt){
+        int count =0;
+        int numberOfCellsPerRow = 18;
 
-        boolean effect = false;
-        int[] tempRangeeFeu = new int[5000];
-        int[] tempColonneFeu = new int[5000];
-        tempRangeeFeu = rangFeu;
-        tempColonneFeu = colFeu;
+        return count;
+    }
 
-        for (int rangee = 0; rangee < positionDesBateau.length; rangee++) {
-            for (int colonne = 0; colonne < positionDesBateau[rangee].length; colonne++) {
+    /**
+     * @param boatPosition tableau de l'espace de jeu
+     //* @param rowFeuInt  le coup est definit par la rangee
+    // * @param colFeuInt  le coup est definit par la colonne
+     //* @param j  j est utilisé pour parcourire le tableau stockant les  coups tirés.
+     **/
+    public static void destroyBoat(char [][] boatPosition, int x, int y) {
+        int i = 0;
+        int n = 0;
 
-                if ((rangFeu[j] >0 || rangFeu[j]<=9) && (colFeu[j]>0 || colFeu[j]<=18) ) {
 
-                    if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
+        if (x >= 0 && x < 9 && y >= 0 && y < 18) {
+            if (boatPosition[x][y] == '~') {
 
-                        positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
-                        detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                    }
-                    else if(positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '~' ) {
-                        positionDesBateau[rangFeu[j] - 1][(colFeu[j])] = 'o';
-                        //effect = true;
-                    }
+                boatPosition[x][y] = 'o';
 
-                    if (rangFeu[j] > 1 && rangFeu[j] < 9 && colFeu[j]>1 && colFeu[j]<18) {
-                       if (positionDesBateau[rangFeu[j] - 2][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 2][colFeu[j]] == '>') {
-                            //if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
-
-                                positionDesBateau[rangFeu[j] - 2][colFeu[j]] = '*';
-                            detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                        }
-
-                        if (positionDesBateau[rangFeu[j]][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j]][colFeu[j]] == '>') {
-                            positionDesBateau[rangFeu[j]][colFeu[j]] = '*';
-                            detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                        }
-                        if (positionDesBateau[rangFeu[j] - 1][colFeu[j] - 1] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j] - 1] == '>') {
-                            positionDesBateau[rangFeu[j] - 1][colFeu[j] - 1] = '*';
-                            detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                        }
-                        if (positionDesBateau[rangFeu[j] - 1][colFeu[j] + 1] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j] + 1] == '>') {
-                            positionDesBateau[rangFeu[j] - 1][colFeu[j] + 1] = '*';
-                            detruireBateauRecursivement(positionDesBateau, rangFeu, colFeu, j);
-                        }
-                    }
-                }
+            } else if (boatPosition[x][y] == '>' || boatPosition[x][y] == 'v') {
+                boatPosition[x][y] = '*';
+                destroyBoat(boatPosition, x, y + 1);
+                destroyBoat(boatPosition, x, y - 1);
+                destroyBoat(boatPosition, x + 1, y);
+                destroyBoat(boatPosition, x - 1, y);
             }
         }
-        return effect;
     }
 
 
 
+
+
     public static void main(String[] args) {
-
-
-
-
 
         boolean estValide;
         char lignInput1;
@@ -289,9 +349,9 @@ public class Batnav5 {
         int k=0;
         int j;
 
-        int rangeeInitiale;
+        int rowPlaySpace;
 
-        int colonneInitiale;
+        int colPlaySpace;
 
 
 
@@ -299,20 +359,15 @@ public class Batnav5 {
         afficherLetters();
         Pep8.charo('\n');
 
-        char [][] positionDesBateau = imprimerTableauInitial(9, 18, '~');
+        char [][] boatPosition = imprimerTableauInitial(9, 18, '~');
 
 
-        char []tailleTab=new char[1000];
-        char []orientationTab=new char[1000];
-        char []colonneTab=new char[1000];
-        int  []colonneTabConvertis = new int [1000];
+        char []sizeBoat=new char[1000];
+        char []dirBoat=new char[1000];
+        char []colBoat=new char[1000];
+        int  []colBoatInt = new int [1000];
         char []rangeeTab=new char[1000];
-        int  []rangeeTabConvertis = new int [1000];
-
-
-
-
-
+        int  []rowBoat = new int [1000];
 
         do { /** boucle pour arreter le programme quand on pese sur la touche entrer
          */
@@ -332,13 +387,12 @@ public class Batnav5 {
                      * le premier char est la taille
                      */
 
-                    tailleTab[n] = Pep8.chari();
+                    sizeBoat[n] = Pep8.chari();
 
-                    if (!checkTaille(tailleTab[n])) {
+                    if (!checkTaille(sizeBoat[n])) {
 
 
                         estValide = false;
-
 
                     }
 
@@ -347,9 +401,9 @@ public class Batnav5 {
                      * */
 
 
-                    orientationTab[n] = Pep8.chari();
+                    dirBoat[n] = Pep8.chari();
 
-                    if (!checkOriontation(orientationTab[n])) {
+                    if (!checkOriontation(dirBoat[n])) {
 
 
                         estValide = false;
@@ -361,9 +415,9 @@ public class Batnav5 {
                      * le 3eme char est la colonne
                      */
 
-                    colonneTab[n] = Pep8.chari();
+                    colBoat[n] = Pep8.chari();
 
-                    if (!checkLetterColonne(colonneTab[n])) {
+                    if (!checkLetterColonne(colBoat[n])) {
 
 
                         estValide = false;
@@ -409,17 +463,17 @@ public class Batnav5 {
 
 
                 for ( j = 0; j < n; j++) {
-                    colonneTabConvertis[j] = (int) colonneTab[j] - 65;
-                    rangeeTabConvertis[j] = (int) rangeeTab[j] - 48;
+                    colBoatInt[j] = (int) colBoat[j] - 65;
+                    rowBoat[j] = (int) rangeeTab[j] - 48;
 
                     /**
                      * Affichage de l'espace de jeu mis à jour
                      */
 
 
-                    for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
+                    for (rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
 
-                        for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
+                        for (colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
 
                             /**
                              * quand la cordonnees du bateau initiale egale la coordonnees du position entré
@@ -428,25 +482,20 @@ public class Batnav5 {
                              */
 
 
-                            if (tailleTab[j] == 'g') {
+                            if (sizeBoat[j] == 'g') {
 
-                                if (orientationTab[j] == 'h') {
+                                if (dirBoat[j] == 'h') {
                                     /**
                                      * Si le bateau est grand, orienter horizontalement
                                      * et que la colonne commence à O, le bateau va pas etre affiché.
                                      */
 
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 5) {
+                                    if (boatPosition[rowPlaySpace].length - (colBoatInt[j] - 1) > 5) {
 
                                         for (int i = 0; i < 5; i++) {
 
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                            boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
 
-                                            } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
-                                                // }
-                                                positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
-                                            }
                                         }
                                     }
 
@@ -457,13 +506,11 @@ public class Batnav5 {
                                      */
 
 
-                                } else if (orientationTab[j] == 'v') {
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 5) {
+                                } else if (dirBoat[j] == 'v') {
+                                    if (boatPosition.length - (rowBoat[j] -1) >= 5) {
                                         for (int i = 0; i < 5; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
 
-                                            }
 
                                         }
                                     }
@@ -471,26 +518,25 @@ public class Batnav5 {
                                 }
 
 
-                            }else if (tailleTab[j] == 'm') {
+                            }else if (sizeBoat[j] == 'm') {
 
 
-                                if (orientationTab[j] == 'h') {
+                                if (dirBoat[j] == 'h') {
 
                                     /**
                                      * Si le bateau est moyen, orienter horizontalement
                                      * et que la colonne commence à Q, le bateau va pas etre affiché.
                                      */
 
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 3) {
+                                    if (boatPosition[rowPlaySpace].length - (colBoatInt[j] - 1) > 3) {
                                         for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                            boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
 
-                                            }
+
                                         }
                                     }
 
-                                } else if (orientationTab[j] == 'v') {
+                                } else if (dirBoat[j] == 'v') {
 
                                     /**
                                      * Si le bateau est moyen, orienter verticalement
@@ -498,39 +544,38 @@ public class Batnav5 {
                                      */
 
 
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 3) {
+                                    if (boatPosition.length - (rowBoat[j] -1) >= 3) {
                                         for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
 
-                                            }
+
                                         }
                                     }
 
                                 }
 
 
-                            } else if (tailleTab[j] == 'p') {
+                            } else if (sizeBoat[j] == 'p') {
 
-                                if (orientationTab[j] == 'h') {
+                                if (dirBoat[j] == 'h') {
 
 
                                     for (int i = 0; i < 1; i++) {
-                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                            positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
-                                        }
+                                        boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
+
+
                                     }
                                 }
 
 
-                            } else if (orientationTab[j] == 'v') {
+                            } else if (dirBoat[j] == 'v') {
 
                                 for (int i = 0; i < 1; i++) {
-                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                        positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v';
 
-                                    }
+                                    boatPosition[rowBoat[j] - 1 + i][colBoatInt[j]] = 'v';
+
+
                                 }
 
                             }
@@ -539,7 +584,8 @@ public class Batnav5 {
 
                     }
                 }
-            }while(!estValide);
+
+            }while(!estValide);//|| checkBateau(sizeBoat, dirBoat, rowBoat, colBoatInt));
 
             /**
              * Affichage de l'espace de jeu mis à jour
@@ -550,11 +596,11 @@ public class Batnav5 {
             afficherLetters();
             Pep8.charo('\n');
             char c;
-            for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                Pep8.deco(rangeeInitiale + 1);
+            for (rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
+                Pep8.deco(rowPlaySpace + 1);
                 Pep8.charo('|');
-                for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-                    c = positionDesBateau[rangeeInitiale][colonneInitiale];
+                for (colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
+                    c = boatPosition[rowPlaySpace][colPlaySpace];
 
                     Pep8.charo(c);
 
@@ -564,9 +610,6 @@ public class Batnav5 {
                 Pep8.charo('\n');
             }
 
-
-
-
             /**
              * le bout de code suivant va afficher un msg demandanu au joueur d'entrer des coups
              */
@@ -575,9 +618,9 @@ public class Batnav5 {
 
             char  espaceEntreCoup;
             char []colonneFeu = new char[1000];
-            int [] colonneFeuConvertis = new int [1000];
+            int [] colFeuInt = new int [1000];
             char []rangeeFeu = new char [1000];
-            int [] rangeeFeuConvertis = new int [1000];
+            int [] rowFeuInt = new int [1000];
 
             /**
              * Verification des coups entrés.
@@ -619,10 +662,10 @@ public class Batnav5 {
                      * conversion des chars en entiers
                      */
 
-                    colonneFeuConvertis[j] = (int) colonneFeu[j] - 65;
+                    colFeuInt[j] = (int) colonneFeu[j] - 65;
                     Pep8.charo('\n');
 
-                    rangeeFeuConvertis[j] = (int) rangeeFeu[j] - 48;
+                    rowFeuInt[j] = (int) rangeeFeu[j] - 48;
                     Pep8.charo('\n');
 
 
@@ -637,11 +680,11 @@ public class Batnav5 {
                     afficherLetters();
                     Pep8.charo('\n');
 
-                    for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                        Pep8.deco(rangeeInitiale + 1);
+                    for (rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
+                        Pep8.deco(rowPlaySpace + 1);
                         Pep8.charo('|');
 
-                        for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
+                        for (colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
 
                             /**
                              * quand la cordonnees du bateau initiale egale la coordonnees du position entré
@@ -651,113 +694,82 @@ public class Batnav5 {
 
 
 
-                            if (tailleTab[j] == 'g') {
+                            if (sizeBoat[j] == 'g'){
 
 
-                                if (orientationTab[j] == 'h') {
+                                if (dirBoat[j] == 'h') {
 
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 5) {
+                                    if (boatPosition[rowPlaySpace].length - (colBoat[j] - 1) > 5) {
 
                                         for (int i = 0; i < 5; i++) {
 
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                            boatPosition[rowBoat[j] - 1][colBoat[j] + i] = '>';
 
-                                            } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
-
-                                                positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
-                                            }
                                         }
                                     }
 
 
-                                } else if (orientationTab[j] == 'v') {
+                                } else if (dirBoat[j] == 'v') {
 
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 5) {
+                                    if (boatPosition.length - (rowBoat[j] -1) >= 5) {
                                         for (int i = 0; i < 5; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
 
-                                            }
 
                                         }
                                     }
                                 }
 
+                            }else if (sizeBoat[j] == 'm') {
 
 
-                            }else if (tailleTab[j] == 'm') {
-
-
-                                if (orientationTab[j] == 'h') {
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 3) {
+                                if (dirBoat[j] == 'h') {
+                                    if (boatPosition[rowPlaySpace].length - (colBoat[j] - 1) > 3) {
 
                                         for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
 
-                                            }
+                                            boatPosition[rowBoat[j] - 1][colBoat[j] + i] = '>';
+
                                         }
                                     }
 
-                                } else if (orientationTab[j] == 'v') {
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 3) {
+                                } else if (dirBoat[j] == 'v') {
+                                    if (boatPosition.length - (rowBoat[j] -1) >= 3) {
                                         for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
 
-                                            }
                                         }
                                     }
 
                                 }
 
+                            } else if (sizeBoat[j] == 'p') {
 
-                            } else if (tailleTab[j] == 'p') {
 
-
-                                if (orientationTab[j] == 'h') {
+                                if (dirBoat[j] == 'h') {
 
 
                                     for (int i = 0; i < 1; i++) {
-                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                            positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                        boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
 
-                                        }
                                     }
                                 }
 
-                            } else if (orientationTab[j] == 'v') {
+                            } else if (dirBoat[j] == 'v') {
 
                                 for (int i = 0; i < 1; i++) {
-                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                        positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v';
+                                    boatPosition[rowBoat[j] - 1 + i][colBoatInt[j]] = 'v';
 
-                                    }
                                 }
 
                             }
 
-                            /**
-                             * Condition Vérifiant si les coordonnées des coups tirés sont à la même place que les positions des bateaux.
-
-                             **/
-
-
-                            if(detruireBateauRecursivement(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
-
-                            } else {
-                                //positionDesBateau[rangeeFeuConvertis[j] - 1][colonneFeuConvertis[j]] = 'o';
-
-                            }
-
-
-
+                            destroyBoat( boatPosition, rowFeuInt[j] - 1, colFeuInt[j]);
 
                             /**
                              * le char c est '~'
                              */
-                            c = positionDesBateau[rangeeInitiale][colonneInitiale];
+                            c = boatPosition[rowPlaySpace][colPlaySpace];
 
                             Pep8.charo(c);
 
@@ -769,22 +781,21 @@ public class Batnav5 {
 
                     }
 
-
-
                 }
+
                 /**
                  * on refait l'execution du programme si les coups entrés sont invalide ou s'il reste encore des bateaux non detruit
                  */
 
-            }while(!estValide || stilHasBoat(positionDesBateau));
+            }while(!estValide || stilHasBoat(boatPosition));
 
 
             /**
              * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
              */
-            for(rangeeInitiale=0; rangeeInitiale<positionDesBateau.length; rangeeInitiale++){
-                for(colonneInitiale=0; colonneInitiale<positionDesBateau[rangeeInitiale].length; colonneInitiale++){
-                    positionDesBateau[rangeeInitiale][colonneInitiale]='~';
+            for(rowPlaySpace=0; rowPlaySpace<boatPosition.length; rowPlaySpace++){
+                for(colPlaySpace=0; colPlaySpace<boatPosition[rowPlaySpace].length; colPlaySpace++){
+                    boatPosition[rowPlaySpace][colPlaySpace]='~';
                 }
             }
 
