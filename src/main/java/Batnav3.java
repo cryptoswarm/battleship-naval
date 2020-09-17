@@ -128,13 +128,9 @@ public class Batnav3 {
         // do {
         estValide = true;
         if (alpha < 'A' || alpha > 'R') {
-
             estValide = false;
-
         }
-
         return estValide;
-
     }
 
     /**
@@ -265,10 +261,10 @@ public class Batnav3 {
             for(int colonne=0; colonne<boatPosition[rangee].length; colonne++){
                 if(boatPosition[rangee][colonne]=='v' || boatPosition[rangee][colonne]=='>' ){
                     resultat=true;
+                    break;
                 }
             }
         }
-
         return resultat;
     }
 
@@ -286,166 +282,115 @@ public class Batnav3 {
         return count;
     }
 
-    /**
 
-     if (boatPosition[rowFeuInt[j] - 1][colFeuInt[j]] == '>') {
-     boatPosition[rowFeuInt[j] - 1][colFeuInt[j]] = '*';
-     if(rowFeuInt[j] != 1) {
-     boatPosition[rowFeuInt[j] - 2][colFeuInt[j]] = 'o';
-     }
-     if(rowFeuInt[j] != 9) {
-     boatPosition[rowFeuInt[j]][colFeuInt[j]] = 'o';
-     }
+    public static char [][] placeBoat(char [][] boatPosition, char taille, char ori, int nbCol, int nbRow){
 
-     if (boatPosition[rowFeuInt[j] - 1][colFeuInt[j]+1] == '>') {
-     boatPosition[rowFeuInt[j] - 1][colFeuInt[j] + 1] = '*';
-     if(rowFeuInt[j] != 1) {
-     boatPosition[rowFeuInt[j] - 2][colFeuInt[j] + 1] = 'o';
-     }
-     if (rowFeuInt[j] != 9) {
-     boatPosition[rowFeuInt[j]][colFeuInt[j] + 1] = 'o';
-     }
+            switch (taille){
+                    case 'g':
+                        if(ori =='h'){ //Si le bateau est grand, orienter horizontalement
+                            if ( nbCol < 13) { //et que la colonne commence à O, le bateau ne va pas etre affiché.
 
-     if (boatPosition[rowFeuInt[j] - 1][colFeuInt[j]+2] == '>') {
-     boatPosition[rowFeuInt[j] - 1][colFeuInt[j] + 2] = '*';
-     if(rowFeuInt[j] != 1) {
-     boatPosition[rowFeuInt[j] - 2][colFeuInt[j] + 2] = 'o';
-     }
-     if (rowFeuInt[j] != 9) {
-     boatPosition[rowFeuInt[j]][colFeuInt[j] + 2] = 'o';
-     }
+                                for (int i = 0; i < 5; i++) {
 
-     if (boatPosition[rowFeuInt[j] - 1][colFeuInt[j]+3] == '>') {
-     boatPosition[rowFeuInt[j] - 1][colFeuInt[j] + 3] = '*';
-     if(rowFeuInt[j] != 1) {
-     boatPosition[rowFeuInt[j] - 2][colFeuInt[j] + 3] = 'o';
-     }
-     if (rowFeuInt[j] != 9) {
-     boatPosition[rowFeuInt[j]][colFeuInt[j] + 3] = 'o';
-     }
-     }
-     }
-     }
+                                    boatPosition[nbRow - 1][nbCol + i] = '>';
 
-     }
-     **/
+                                }
+                            }
 
+                        }else if(ori =='v'){ //Si le bateau est grand, orienter verticalement
+                            if (nbRow < 6) { //et que la rangee commence à 6, le bateau va pas etre affiché.
+                                for (int i = 0; i < 5; i++) {
+                                    boatPosition[(nbRow - 1) + i][nbCol] = 'v';
+                                }
+                            }
+                        }
+                        break;
+                    case 'm':
+                        if(ori =='h'){ //Si le bateau est moyen, orienter horizontalement
+                            if ( nbCol < 15 ) {//et que la colonne commence à Q, le bateau va pas etre affiché.
+                                for (int i = 0; i < 3; i++) {
+                                    boatPosition[nbRow - 1][nbCol + i] = '>';
+                                }
+                            }
 
+                        }else if(ori =='v'){ //Si le bateau est moyen, orienter verticalement
+                            if (nbRow < 5) { //et que la rangee commence à 8, le bateau va pas etre affiché.
+                                for (int i = 0; i < 3; i++) {
+                                    boatPosition[(nbRow - 1) + i][nbCol] = 'v';
+                                }
+                            }
+                        }
+                        break;
+                    case 'p':
+                        if(ori =='h'){
+                            for (int i = 0; i < 1; i++) {
+
+                                boatPosition[nbRow - 1][nbCol + i] = '>';
+                            }
+                        }else if(ori =='v'){
+                            for (int i = 0; i < 1; i++) {
+
+                                boatPosition[nbRow - 1 + i][nbCol] = 'v';
+                            }
+                        }
+                        break;
+                }
+        return boatPosition;
+    }
+
+    public static void printBoat(char [][]boatPosition){
+        afficherLetters();
+        Pep8.charo('\n');
+        char c;
+        for (int rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
+            Pep8.deco(rowPlaySpace + 1);
+            Pep8.charo('|');
+            for (int colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
+                c = boatPosition[rowPlaySpace][colPlaySpace];
+
+                Pep8.charo(c);
+
+                Pep8.charo(' ');
+            }
+            Pep8.charo('|');
+            Pep8.charo('\n');
+        }
+    }
 
      /**
      * @param boatPosition tableau de l'espace de jeu
      * @param rowFeuInt  le coup est definit par la rangee
      * @param colFeuInt  le coup est definit par la colonne
-     * @param j  j est utilisé pour parcourire le tableau stockant les de coups tirés.
+    // * @param j  j est utilisé pour parcourire le tableau stockant les de coups tirés.
      * @return boolean, determinant si les coups touches les parties de bateau ou non.
      **/
-     public static void destroyBoat(char [][] boatPosition, int []rowFeuInt, int []colFeuInt, int j) {
-            int i=0;
-            int n=0;
+     public static void destroyBoat(char [][] boatPosition, int rowFeuInt, int colFeuInt) { //row = 4 = 3  et col = c
 
-         for (int rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
-             for (int colPlaySpace = 0; colPlaySpace< boatPosition[rowPlaySpace].length; colPlaySpace++) {
+         if (rowFeuInt >= 0 && rowFeuInt< 9 && colFeuInt >= 0 && colFeuInt < 18) {
 
-                 if (rowPlaySpace == rowFeuInt[j] - 1 && colPlaySpace == colFeuInt[j]) {
+             if (boatPosition[rowFeuInt][colFeuInt] == '~') {
+                 boatPosition[rowFeuInt][colFeuInt] = 'o';
 
-                     while (boatPosition[rowFeuInt[j] - 1][colFeuInt[j] + i] == '>') {
+             } else if (boatPosition[rowFeuInt][colFeuInt] == '>' || boatPosition[rowFeuInt][colFeuInt] == 'v') {
 
-                         boatPosition[rowFeuInt[j] - 1][colFeuInt[j] + i] = '*';
+                 boatPosition[rowFeuInt][colFeuInt] = '*';
 
-                         if (rowFeuInt[j] != 1 && rowFeuInt[j] != 9) {
-
-                             boatPosition[rowFeuInt[j] - 2][colFeuInt[j] + i] = 'o';
-                             boatPosition[rowFeuInt[j]][colFeuInt[j] + i] = 'o';
-                         }else if (rowFeuInt[j] == 1) {
-
-                             boatPosition[rowFeuInt[j]][colFeuInt[j] + i] = 'o';
-                         }else if (rowFeuInt[j] == 9) {
-
-                             boatPosition[rowFeuInt[j] - 2][colFeuInt[j] + i] = 'o';
-
-                         }
-                         i++;
-                     }
-
-                     while(boatPosition[rowFeuInt[j] - 1+n][colFeuInt[j]] == 'v'){
-
-                         boatPosition[rowFeuInt[j] - 1+n][colFeuInt[j]] = '*';
-
-                         if (rowFeuInt[j] != 1 && rowFeuInt[j] != 9) {
-
-                             boatPosition[rowFeuInt[j] - 1+n][colFeuInt[j] + 1] = 'o';
-                             boatPosition[rowFeuInt[j]-1+n][colFeuInt[j] -1] = 'o';
-                         }else if (rowFeuInt[j] == 1) {
-
-                             boatPosition[rowFeuInt[j]][colFeuInt[j] + i] = 'o';
-                         }else if (rowFeuInt[j] == 9) {
-
-                             boatPosition[rowFeuInt[j] - 2][colFeuInt[j] + i] = 'o';
-
-                         }
-                         n++;
-                     }
-
-
-
-/**
-                     if(boatPosition[rowFeuInt[j] - 1][colFeuInt[j]] == 'v'){
-
-
-                         boatPosition[rowFeuInt[j] - 1][colFeuInt[j]] = '*';
-
-                         boatPosition[rowFeuInt[j]-1 ][colFeuInt[j]+1] = 'o';
-                         boatPosition[rowFeuInt[j]-1 ][colFeuInt[j]-1] = 'o';
-
-                         if(boatPosition[rowFeuInt[j]][colFeuInt[j]] == 'v') {
-                             boatPosition[rowFeuInt[j]][colFeuInt[j]] = '*';
-                             boatPosition[rowFeuInt[j]][colFeuInt[j]+1] = 'o';
-                             boatPosition[rowFeuInt[j]][colFeuInt[j]-1] = 'o';
-
-                             if(boatPosition[rowFeuInt[j]+1][colFeuInt[j]] == 'v'){
-
-                                 boatPosition[rowFeuInt[j]+1][colFeuInt[j]] = '*';
-                                 boatPosition[rowFeuInt[j]+1][colFeuInt[j]+1] = 'o';
-                                 boatPosition[rowFeuInt[j]+1][colFeuInt[j]-1] = 'o';
-
-                                 if(boatPosition[rowFeuInt[j]+2][colFeuInt[j]] == 'v'){
-
-                                     boatPosition[rowFeuInt[j]+2][colFeuInt[j]] = '*';
-                                     boatPosition[rowFeuInt[j]+2][colFeuInt[j]+1] = 'o';
-                                     boatPosition[rowFeuInt[j]+2][colFeuInt[j]-1] = 'o';
-
-                                     if(boatPosition[rowFeuInt[j]+3][colFeuInt[j]] == 'v') {
-
-                                         boatPosition[rowFeuInt[j] + 3][colFeuInt[j]] = '*';
-                                         boatPosition[rowFeuInt[j] + 3][colFeuInt[j] + 1] = 'o';
-                                         boatPosition[rowFeuInt[j] + 3][colFeuInt[j] - 1] = 'o';
-                                     }
-
-                                 }
-
-                             }
-                         }
-
-                     }
-**/
-
-                 } else if (boatPosition[rowFeuInt[j] - 1][colFeuInt[j]] == '~') {
-
-                     boatPosition[rowFeuInt[j] - 1][colFeuInt[j]] = 'o';
-                 }
+                 destroyBoat(boatPosition, rowFeuInt, colFeuInt + 1);
+                 destroyBoat(boatPosition, rowFeuInt, colFeuInt - 1);
+                 destroyBoat(boatPosition, rowFeuInt - 1, colFeuInt);
+                 destroyBoat(boatPosition, rowFeuInt + 1, colFeuInt);
 
              }
          }
+
      }
 
     public static void main(String[] args) {
 
         boolean estValide;
+        boolean first = true;
         char lignInput1;
         char charQuitter;
-        int n=0;
-        int k=0;
-        int j;
 
         int rowPlaySpace;
 
@@ -460,454 +405,112 @@ public class Batnav3 {
         char [][] boatPosition = imprimerTableauInitial(9, 18, '~');
 
 
-        char []sizeBoat=new char[1000];
-        char []dirBoat=new char[1000];
-        char []colBoat=new char[1000];
-        int  []colBoatInt = new int [1000];
-        char []rangeeTab=new char[1000];
-        int  []rowBoat = new int [1000];
+        char sizeBoat;
+        char dirBoat;
+        char colBoat;
+        int  colBoatInt =0;
+        char rangeeTab;
+        int  rowBoat =0;
 
-        do { /** boucle pour arreter le programme quand on pese sur la touche entrer
-         */
+        do { /** boucle pour arreter le programme quand on pese sur la touche entrer*/
+
             do {
-
-                msgPLacerBateau();
-
                 estValide = true;
 
                 do {
+                    if(first) {
+                        msgPLacerBateau();
+                        first = false;
+                    }
+                    sizeBoat = Pep8.chari();   // la taille du bateau
 
-                    /**
-                     boucle arret de lecture de la ligne entree. l'espace entre les char est pris comme condition de continuite de lecture.
-                     */
-
-                    /**
-                     * le premier char est la taille
-                     */
-
-                    sizeBoat[n] = Pep8.chari();
-
-                    if (!checkTaille(sizeBoat[n])) {
-
-
+                    if (!checkTaille(sizeBoat)) {
                         estValide = false;
-
                     }
 
-                    /**
-                     * * le deuxiem char est l'orientation du bateau
-                     * */
+                    dirBoat = Pep8.chari();  //orientation de bateau
 
-
-                    dirBoat[n] = Pep8.chari();
-
-                    if (!checkOriontation(dirBoat[n])) {
-
-
+                    if (!checkOriontation(dirBoat)) {
                         estValide = false;
-
-
                     }
+                    colBoat = Pep8.chari();  //la colonne
 
-                    /**
-                     * le 3eme char est la colonne
-                     */
-
-                    colBoat[n] = Pep8.chari();
-
-                    if (!checkLetterColonne(colBoat[n])) {
-
-
-                        estValide = false;
-
-
-
-                    }
-
-                    /**
-                     * le 4eme char est la rangee
-                     */
-
-                    rangeeTab[n] = Pep8.chari();
-
-                    if (!checkNombreRanger(rangeeTab[n])) {
-
-
-                        estValide = false;
-
-
-                    }
-
-                    if(!estValide){
-                        n=0;
-
+                    if (checkLetterColonne(colBoat)) {
+                        colBoatInt = (int) colBoat - 65;
                     }else{
-                        n++;
+                        estValide = false;
                     }
 
+                    rangeeTab = Pep8.chari(); //la rangee
 
-
-                    /**
-                     * le 5eme char est l'espace separant les specifications d'un bateau à l'autre.
-                     */
-                    lignInput1 = Pep8.chari();
-
-
-                } while (lignInput1 == ' ');
-
-                /**
-                 * Conversion des chars à des entiers
-                 */
-
-
-                for ( j = 0; j < n; j++) {
-                    colBoatInt[j] = (int) colBoat[j] - 65;
-                    rowBoat[j] = (int) rangeeTab[j] - 48;
-
-                    /**
-                     * Affichage de l'espace de jeu mis à jour
-                     */
-
-
-                    for (rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
-
-                        for (colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
-
-                            /**
-                             * quand la cordonnees du bateau initiale egale la coordonnees du position entré
-                             * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
-                             * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
-                             */
-
-
-                            if (sizeBoat[j] == 'g') {
-
-                                if (dirBoat[j] == 'h') {
-                                    /**
-                                     * Si le bateau est grand, orienter horizontalement
-                                     * et que la colonne commence à O, le bateau va pas etre affiché.
-                                     */
-
-                                    if (boatPosition[rowPlaySpace].length - (colBoatInt[j] - 1) > 5) {
-
-                                        for (int i = 0; i < 5; i++) {
-
-                                                boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
-
-                                        }
-                                    }
-
-
-                                    /**
-                                     * Si le bateau est grand, orienter verticalement
-                                     * et que la rangee commence à 6, le bateau va pas etre affiché.
-                                     */
-
-
-                                } else if (dirBoat[j] == 'v') {
-                                    if (boatPosition.length - (rowBoat[j] -1) >= 5) {
-                                        for (int i = 0; i < 5; i++) {
-                                                boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
-
-
-                                        }
-                                    }
-
-                                }
-
-
-                            }else if (sizeBoat[j] == 'm') {
-
-
-                                if (dirBoat[j] == 'h') {
-
-                                    /**
-                                     * Si le bateau est moyen, orienter horizontalement
-                                     * et que la colonne commence à Q, le bateau va pas etre affiché.
-                                     */
-
-                                    if (boatPosition[rowPlaySpace].length - (colBoatInt[j] - 1) > 3) {
-                                        for (int i = 0; i < 3; i++) {
-                                                boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
-
-
-                                        }
-                                    }
-
-                                } else if (dirBoat[j] == 'v') {
-
-                                    /**
-                                     * Si le bateau est moyen, orienter verticalement
-                                     * et que la rangee commence à 8, le bateau va pas etre affiché.
-                                     */
-
-
-                                    if (boatPosition.length - (rowBoat[j] -1) >= 3) {
-                                        for (int i = 0; i < 3; i++) {
-                                                boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
-
-
-                                        }
-                                    }
-
-                                }
-
-
-                            } else if (sizeBoat[j] == 'p') {
-
-                                if (dirBoat[j] == 'h') {
-
-
-                                    for (int i = 0; i < 1; i++) {
-
-                                            boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
-
-
-                                    }
-                                }
-
-
-                            } else if (dirBoat[j] == 'v') {
-
-                                for (int i = 0; i < 1; i++) {
-
-                                        boatPosition[rowBoat[j] - 1 + i][colBoatInt[j]] = 'v';
-
-
-                                }
-
-                            }
-
-                        }
-
+                    if (checkNombreRanger(rangeeTab)) {
+                        rowBoat = (int) rangeeTab - 48;
+                    }else{
+                        estValide = false;
                     }
-                }
+                    if(!estValide){
+                        first = true;
+                    }
+                } while (!estValide );
 
-            }while(!estValide || checkBateau(sizeBoat, dirBoat, rowBoat, colBoatInt));
+                placeBoat(boatPosition, sizeBoat, dirBoat, colBoatInt, rowBoat);
+                lignInput1 = Pep8.chari(); //read ' '
 
-            /**
-             * Affichage de l'espace de jeu mis à jour
+            }while(lignInput1 == ' ');
 
-             // if(temporary) {
-             */
-
-            afficherLetters();
-            Pep8.charo('\n');
-            char c;
-            for (rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
-                Pep8.deco(rowPlaySpace + 1);
-                Pep8.charo('|');
-                for (colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
-                    c = boatPosition[rowPlaySpace][colPlaySpace];
-
-                        Pep8.charo(c);
-
-                    Pep8.charo(' ');
-                }
-                Pep8.charo('|');
-                Pep8.charo('\n');
-            }
-
-
+            printBoat(boatPosition); //Affichage de l'espace de jeu mis à jour
 
 
             /**
-             * le bout de code suivant va afficher un msg demandanu au joueur d'entrer des coups
+             * le bout de code suivant va afficher un msg demandant au joueur d'entrer des coups
              */
-
-
 
             char  espaceEntreCoup;
-            char []colonneFeu = new char[1000];
-            int [] colFeuInt = new int [1000];
-            char []rangeeFeu = new char [1000];
-            int [] rowFeuInt = new int [1000];
+            char colonneFeu;
+            int colFeuInt = 0 ;
+            char rangeeFeu ;
+            int rowFeuInt = 0;
 
             /**
              * Verification des coups entrés.
              */
-
-
 
             do{
                 Pep8.charo('\n');
                 msgFeuAVolonte();
                 estValide=true;
 
-
-
                 do{
-                    colonneFeu[k] = Pep8.chari();
-                    if (!checkLetterColonne(colonneFeu[k])){
-                        estValide = false;
-                    }
-                    rangeeFeu[k] = Pep8.chari() ;
-                    if (!checkNombreRanger(rangeeFeu[k])) {
-                        estValide = false;
-                    }
-
-                    if(!estValide){
-                        k=0;
+                    colonneFeu = Pep8.chari();
+                    if (checkLetterColonne(colonneFeu)){
+                        colFeuInt = (int) colonneFeu - 65;
                     }else{
-                        k++;}
-
+                        estValide = false;
+                    }
+                    rangeeFeu = Pep8.chari() ;
+                    if (checkNombreRanger(rangeeFeu)) {
+                        rowFeuInt = (int) rangeeFeu - 48;
+                    }else{
+                        estValide = false;
+                    }
+                    destroyBoat(boatPosition, rowFeuInt-1, colFeuInt);   //detruit les bateaux
                     espaceEntreCoup = Pep8.chari();
 
                 }while(espaceEntreCoup==' ');
 
+                    printBoat(boatPosition); //afficher espace de jeu mit à jour
 
-                for (j = 0; j < k; j++) {
+            }while(!estValide || stilHasBoat(boatPosition)); //refait l'execution  si les coups entrés sont invalide
+                                                                // ou s'il reste encore des bateaux non detruit
 
-
-                    /**
-                     * conversion des chars en entiers
-                     */
-
-                    colFeuInt[j] = (int) colonneFeu[j] - 65;
-                    Pep8.charo('\n');
-
-                    rowFeuInt[j] = (int) rangeeFeu[j] - 48;
-                    Pep8.charo('\n');
-
-
-
-                    /**
-                     * le code suivant est sensé affiché le jeu mise a jour
-                     * la position des bateaux
-                     * les coups tiré
-                     */
-
-
-                    afficherLetters();
-                    Pep8.charo('\n');
-
-                    for (rowPlaySpace = 0; rowPlaySpace < boatPosition.length; rowPlaySpace++) {
-                        Pep8.deco(rowPlaySpace + 1);
-                        Pep8.charo('|');
-
-                        for (colPlaySpace = 0; colPlaySpace < boatPosition[rowPlaySpace].length; colPlaySpace++) {
-
-                            /**
-                             * quand la cordonnees du bateau initiale egale la coordonnees du position entré
-                             * une coordonnee du bateau initiale est definit par numero de range et numero du colonne
-                             * une coordonnee du position du bateau  est definit par numero de range et numero du colonne
-                             */
-
-
-
-                            if (sizeBoat[j] == 'g') {
-
-
-                                if (dirBoat[j] == 'h') {
-
-                                    if (boatPosition[rowPlaySpace].length - (colBoat[j] - 1) > 5) {
-
-                                        for (int i = 0; i < 5; i++) {
-
-                                                boatPosition[rowBoat[j] - 1][colBoat[j] + i] = '>';
-
-                                        }
-                                    }
-
-
-                                } else if (dirBoat[j] == 'v') {
-
-                                    if (boatPosition.length - (rowBoat[j] -1) >= 5) {
-                                        for (int i = 0; i < 5; i++) {
-                                                boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
-
-
-                                        }
-                                    }
-                                }
-
-                            }else if (sizeBoat[j] == 'm') {
-
-
-                                if (dirBoat[j] == 'h') {
-                                    if (boatPosition[rowPlaySpace].length - (colBoat[j] - 1) > 3) {
-
-                                        for (int i = 0; i < 3; i++) {
-
-                                                boatPosition[rowBoat[j] - 1][colBoat[j] + i] = '>';
-
-                                        }
-                                    }
-
-                                } else if (dirBoat[j] == 'v') {
-                                    if (boatPosition.length - (rowBoat[j] -1) >= 3) {
-                                        for (int i = 0; i < 3; i++) {
-                                                boatPosition[(rowBoat[j] - 1) + i][colBoatInt[j]] = 'v';
-
-                                        }
-                                    }
-
-                                }
-
-                            } else if (sizeBoat[j] == 'p') {
-
-
-                                if (dirBoat[j] == 'h') {
-
-
-                                    for (int i = 0; i < 1; i++) {
-                                            boatPosition[rowBoat[j] - 1][colBoatInt[j] + i] = '>';
-
-                                    }
-                                }
-
-                            } else if (dirBoat[j] == 'v') {
-
-                                for (int i = 0; i < 1; i++) {
-                                        boatPosition[rowBoat[j] - 1 + i][colBoatInt[j]] = 'v';
-
-                                }
-
-                            }
-
-                            destroyBoat( boatPosition, rowFeuInt, colFeuInt, j);
-
-                            /**
-                             * le char c est '~'
-                             */
-                            c = boatPosition[rowPlaySpace][colPlaySpace];
-
-                           Pep8.charo(c);
-
-                            Pep8.charo(' ');
-
-                        }
-                        Pep8.charo('|');
-                        Pep8.charo('\n');
-
-                            }
-
-                        }
-
-                /**
-                 * on refait l'execution du programme si les coups entrés sont invalide ou s'il reste encore des bateaux non detruit
-                 */
-
-            }while(!estValide || stilHasBoat(boatPosition));
-
-
-            /**
-             * Pour quitter le jeu entrer un char diffrent de <Enter> puis appuyez sur <Enter>.
-             */
             for(rowPlaySpace=0; rowPlaySpace<boatPosition.length; rowPlaySpace++){
                 for(colPlaySpace=0; colPlaySpace<boatPosition[rowPlaySpace].length; colPlaySpace++){
                     boatPosition[rowPlaySpace][colPlaySpace]='~';
                 }
             }
-
-
-            Pep8.charo('\n');
             msgQuitter();
             charQuitter = Pep8.chari();
-            if(charQuitter=='\n') {
-               n = 0;
-               k=0;
-              }
+
         } while (charQuitter == '\n');
 
     }
