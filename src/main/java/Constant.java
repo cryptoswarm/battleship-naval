@@ -25,6 +25,7 @@ public class Constant {
                         You have annihilated the fleet!
                         Press <Enter> to play again or
                         any other input to quit.
+                        
                         """;
 
     public static String BOAT_SIZE_INVALID_MSG = "The boat size is outside the game space!";

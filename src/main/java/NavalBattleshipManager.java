@@ -1,3 +1,7 @@
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 /**
  The following code represents a naval battleship game.
  The game space consists of 9 rows and 18 columns.
@@ -12,120 +16,6 @@
 
 public class NavalBattleshipManager {
 
-    public static void displayBoatSizePositionMsg() {
-        Pep8.stro(Constant.BOAT_SIZE_POSITION_MSG);
-    }
-
-    public static void displayWelcomeMsg() {
-        Pep8.stro(Constant.WELCOME_MSG);
-    }
-
-    public static void displayLetters() {
-        char colonne = 'A';
-        Pep8.charo(' ');
-        while (colonne <= 'R') {
-
-            Pep8.stro(" " + colonne);
-
-            colonne = (char) (colonne + 1);
-        }
-    }
-
-    public static void displayTakeShotMsg() {
-        Pep8.stro(Constant.FIRE_AT_WILL_MSG);
-    }
-
-    public static void displayExitMsg(){
-        Pep8.stro(Constant.EXIT_MSG);
-    }
-
-    /**
-     * Check the size of the boat
-     * @param grandeurBateau is the size of the boat, can be p, m, or g
-     */
-    public static boolean isBoatSizeValid(char grandeurBateau) {
-        boolean estValide;
-
-        estValide = true;
-
-        if (grandeurBateau != 'p' && grandeurBateau != 'm' && grandeurBateau != 'g') {
-
-            Pep8.charo('\n');
-            estValide = false;
-        }
-        return estValide;
-    }
-
-    /**
-     * @param orientation, the orientation of the boat h for horizontal. v for vertical.
-     * @return character > when the position is horizontal otherwise V.
-     */
-    public static boolean isBoatDirectionValid(char orientation) {
-        boolean estValide;
-
-        estValide = true;
-        if(orientation != 'h' && orientation != 'v') {
-            estValide = false;
-        }
-
-        return estValide;
-    }
-
-    /**
-     * @param alpha the letter designating the column, must be between A and R
-     * @return alpha
-     */
-    public static boolean isColumnLetterValid(char alpha) {
-        boolean estValide;
-
-        estValide = true;
-        if (alpha < 'A' || alpha > 'R') {
-
-            estValide = false;
-
-        }
-        return estValide;
-    }
-
-    /**
-     * @param rangee, number of rows, cannot be more than 9
-     * @return number of rows
-     */
-    public static boolean isNbrInRange(char rangee) {
-        boolean estValide;
-        estValide = true;
-        if ((int) rangee < 49 || (int) rangee > 57) {
-            estValide = false;
-        }
-        return estValide;
-    }
-
-    /**
-     * @param rangee row of the array
-     * @param colonne column of the array
-     * @param tild the character '~'
-     * @return prints the game board array
-     */
-    public static char [][] displayInitialGrid(int rangee, int colonne, char tild){
-        char [][]situationInitiale = new char [rangee][colonne];
-
-        situationInitiale[rangee-1][colonne-1] =tild;
-
-        for (rangee = 0; rangee < situationInitiale.length; rangee++) {
-            Pep8.deco(rangee + 1);
-            Pep8.charo('|');
-
-            for (colonne = 0; colonne < (situationInitiale[rangee].length); colonne++) {
-
-                Pep8.charo(situationInitiale[rangee][colonne] =tild);
-                Pep8.charo(' ');
-            }
-            Pep8.charo('|');
-            Pep8.charo('\n');
-        };
-        return situationInitiale;
-    }
-
     /**
      * @param positionDesBateau game space array
      * @return boolean, whether there are any parts of the boat left undestroyed or not
@@ -133,9 +23,9 @@ public class NavalBattleshipManager {
     public static boolean stillHasBoat(char [][]positionDesBateau){
 
         boolean resultat = false;
-        for(int rangee=0; rangee<positionDesBateau.length; rangee++){
-            for(int colonne=0; colonne<positionDesBateau[rangee].length; colonne++){
-                if(positionDesBateau[rangee][colonne]=='v' ||positionDesBateau[rangee][colonne]=='>' ){
+        for(int row=0; row<positionDesBateau.length; row++){
+            for(int column=0; column<positionDesBateau[row].length; column++){
+                if(positionDesBateau[row][column]=='v' ||positionDesBateau[row][column]=='>' ){
                     resultat=true;
                 }
             }
@@ -143,110 +33,52 @@ public class NavalBattleshipManager {
         return resultat;
     }
 
-    /**
-     * @param tailleTab boat size
-     * @param orint orientation
-     * @param rangee number of rows
-     * @param col number of columns
-     * @return the boolean is used to repeat the request to enter boats if they exceed the game space.
-     */
-    public static boolean isBoatSizeDirectionValid(char []tailleTab, char []orint, int []rangee, int []col){
-        int j=0;
-        boolean res=false;
-
-        if(tailleTab[j]=='g'){
-
-            if(orint[j]=='v'){
-                if(rangee[j]>=6 ){
-                    res=true;
-                    Pep8.stro(Constant.BOAT_SIZE_INVALID_MSG);
-                }
-            }
-        }
-
-        if( tailleTab[j] =='m'){
-            if(orint[j]=='v'){
-                if(rangee[j]>7){
-                    res=true;
-                }
-            }
-        }
-
-        if(tailleTab[j]=='g' ){
-            if(orint[j]=='h'){
-                if(col[j]>13){
-                    res=true;
-                }
-            }
-        }
-
-        if( tailleTab[j] =='m'){
-            if(orint[j]=='h'){
-                if(col[j]>15){
-                    res=true;
-                }
-            }
-        }
-        return res;
-    }
-
-    public static boolean isBoatDestroyed(char [][] positionDesBateau, int []rangFeu, int []colFeu, int j) {
+    public static boolean isBoatDestroyed(char [][] positionDesBateau, List<Boat> boats, List<Shot> shots) {
 
         boolean effect = false;
-        int[] tempRangeeFeu = new int[5000];
-        int[] tempColonneFeu = new int[5000];
 
-        for (int rangee = 0; rangee < positionDesBateau.length; rangee++) {
-            for (int colonne = 0; colonne < positionDesBateau[rangee].length; colonne++) {
+        for (Boat boat: boats) {
+            for(Shot shot: shots){
+                if(boat.getPosition().equals(shot.getShotCoordinate())){
+                    int x = shot.getShotCoordinate().getRowCoordinate() - 1; //rangFeu[j] - 1;
+                    int y = shot.getShotCoordinate().getColumnCoordinate();// colFeu[j];
 
-                if ((rangFeu[j] >0 || rangFeu[j]<=9) && (colFeu[j]>0 || colFeu[j]<=18) ) {
+                    positionDesBateau[x][y] = '*';
 
-                    if (positionDesBateau[rangee][colonne] == 'v' || positionDesBateau[rangee][colonne] == '>') {
+                    if (x > 1 && x < 9) {
 
-                        if (positionDesBateau[rangFeu[j] - 1][colFeu[j]] == 'v' || positionDesBateau[rangFeu[j] - 1][colFeu[j]] == '>') {
-
-                            positionDesBateau[rangFeu[j] - 1][colFeu[j]] = '*';
-
-                            if (rangFeu[j] > 1 && rangFeu[j] < 9) {
-
-                                if (positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] == '>' || positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] == 'v') {
-                                    positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] = '*';
-                                } else {
-                                    positionDesBateau[(rangFeu[j] - 1) - 1][colFeu[j]] = 'o';
-                                }
-                                if (positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] == '>' || positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] == 'v') {
-                                    positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] = '*';
-                                } else {
-                                    positionDesBateau[(rangFeu[j] - 1)][colFeu[j] - 1] = 'o';
-                                }
-                                if (positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] == 'v' || positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] == '>') {
-                                    positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] = '*';
-                                } else {
-                                    positionDesBateau[(rangFeu[j] - 1) + 1][colFeu[j]] = 'o';
-                                }
-
-                            } else if (rangFeu[j] == 9) {
-                                tempRangeeFeu[j] = rangFeu[j] - 1;
-                                positionDesBateau[(tempRangeeFeu[j])][colFeu[j]] = '*';
-
-                                positionDesBateau[tempRangeeFeu[j] - 1][colFeu[j]] = 'o';
-                                positionDesBateau[tempRangeeFeu[j]][colFeu[j] - 1] = 'o';
-
-                            } else if (rangFeu[j] == 1) {
-                                tempRangeeFeu[j] = rangFeu[j] + 1;
-
-                                positionDesBateau[(tempRangeeFeu[j] - 1) - 1][colFeu[j]] = 'o';
-                                positionDesBateau[(tempRangeeFeu[j] - 1)][colFeu[j]] = 'o';
-                            }
-                            positionDesBateau[rangFeu[j] - 1][(colFeu[j]) + 1] = 'o';
-
-                            if (colFeu[j] == 1) {
-                                tempColonneFeu[j] = colFeu[j] + 1;
-                                positionDesBateau[rangFeu[j]][tempColonneFeu[j] - 1] = 'o';
-                            }
-                            effect = true;
+                        if (positionDesBateau[(x - 1) - 1][y] == '>' || positionDesBateau[(x - 1) - 1][y] == 'v') {
+                            positionDesBateau[(x - 1) - 1][y] = '*';
+                        } else {
+                            positionDesBateau[(x - 1) - 1][y] = 'o';
                         }
+                        if (positionDesBateau[(x - 1)][y - 1] == '>' || positionDesBateau[(x - 1)][y - 1] == 'v') {
+                            positionDesBateau[(x - 1)][y - 1] = '*';
+                        } else {
+                            positionDesBateau[(x - 1)][y - 1] = 'o';
+                        }
+                        if (positionDesBateau[(x - 1) + 1][y] == 'v' || positionDesBateau[(x - 1) + 1][y] == '>') {
+                            positionDesBateau[(x - 1) + 1][y] = '*';
+                        } else {
+                            positionDesBateau[(x - 1) + 1][y] = 'o';
+                        }
+
+                    } else if (x == 9) {
+                        positionDesBateau[(x + 1)][y] = '*';
+
+                        positionDesBateau[x + 1 - 1][y] = 'o';
+                        positionDesBateau[x + 1][y - 1] = 'o';
+
+                    } else if (x == 1) {
+                        positionDesBateau[(x + 1 - 1) - 1][y] = 'o';
+                        positionDesBateau[(x + 1 - 1)][y] = 'o';
                     }
+                    positionDesBateau[x - 1][(y) + 1] = 'o';
+
+                    if (y == 1) {
+                        positionDesBateau[x][y + 1 - 1] = 'o';
+                    }
+                    effect = true;
                 }
             }
         }
@@ -255,128 +87,75 @@ public class NavalBattleshipManager {
 
     public static void main(String[] args) {
 
-        boolean estValide;
-        char lignInput1;
-        char charQuitter;
-        int n=0;
-        int k=0;
+        Scanner scanner = new Scanner(System.in);
+
+        boolean isValid;
+        char exitCharacter;
         int j;
 
-        int rangeeInitiale;
+        int initialRow;
 
-        int colonneInitiale;
-
-        displayWelcomeMsg();
-        displayLetters();
-        Pep8.charo('\n');
-
-        char [][] positionDesBateau = displayInitialGrid(9, 18, '~');
+        int initialColumn;
 
         char []tailleTab=new char[1000];
         char []orientationTab=new char[1000];
-        char []colonneTab=new char[1000];
         int  []colonneTabConvertis = new int [1000];
-        char []rangeeTab=new char[1000];
         int  []rangeeTabConvertis = new int [1000];
 
         do {
+            DisplayMessage.displayWelcomeMsg();
+            DisplayMessage.displayLetters();
+            Pep8.charo('\n');
+
+            char [][] grid = Grid.displayInitialGrid(9, 18, '~');
             /**
              * Loop to stop the program when the Enter key is pressed.
             */
+            String input = "";
             do {
-                displayBoatSizePositionMsg();
-                estValide = true;
+                DisplayMessage.displayBoatSizePositionMsg();
+                input = scanner.nextLine();
+                isValid = isUserInputValid(input, "^[sml][hv][A-R][1-9]$");
+            } while (!isValid);
 
-                /**
-                 Loop to stop reading the input line.
-                 The space between characters is taken as the condition to continue reading.
-                 */
-                do {
-                    /**
-                     * The 1st character is the boat size
-                     */
-                    tailleTab[n] = Pep8.chari();
-
-                    if (!isBoatSizeValid(tailleTab[n])) {
-                        estValide = false;
-                    }
-
-                    /**
-                     * The 2nd character is the boat direction
-                     */
-                    orientationTab[n] = Pep8.chari();
-
-                    if (!isBoatDirectionValid(orientationTab[n])) {
-                        estValide = false;
-                    }
-
-                    /**
-                     * The 3rd character is the column
-                     */
-                    colonneTab[n] = Pep8.chari();
-
-                    if (!isColumnLetterValid(colonneTab[n])) {
-                        estValide = false;
-                    }
-
-                    /**
-                     * The 4th character is the row
-                     */
-                    rangeeTab[n] = Pep8.chari();
-
-                    if (!isNbrInRange(rangeeTab[n])) {
-                        estValide = false;
-                    }
-
-                    if(!estValide){
-                        n=0;
-
-                    }else{
-                        n++;
-                    }
-
-                    /**
-                     * The 5th character is the space separating the specifications of one boat from another.
-                     */
-                    lignInput1 = Pep8.chari();
-                } while (lignInput1 == ' ');
+            BoatManager boatManager = new BoatManager();
+            boatManager.constructBoats(input);
+            List<Boat> boats = boatManager.getBoats();
 
                 /**
                  * Conversion of characters to integers
                  */
-                for ( j = 0; j < n; j++) {
-                    colonneTabConvertis[j] = (int) colonneTab[j] - 65;
-                    rangeeTabConvertis[j] = (int) rangeeTab[j] - 48;
+                j =0;
+                for (Boat boat: boats) {
+                    colonneTabConvertis[j] = boat.getPosition().getColumnCoordinate();
+                    rangeeTabConvertis[j] =  boat.getPosition().getRowCoordinate();
 
                     /**
                      * Displaying the updated game space
                      */
-                    for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-
-                        for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
+                    for (initialRow = 0; initialRow < grid.length; initialRow++) {
+                        for (initialColumn = 0; initialColumn < grid[initialRow].length; initialColumn++) {
 
                             /**
                              When the coordinates of the initial boat equal the coordinates of the entered position,
                              a coordinate of the initial boat is defined by the row number and column number,
                              and a coordinate of the boat position is defined by the row number and column number.
                              */
-                            if (tailleTab[j] == 'g') {
-
-                                if (orientationTab[j] == 'h') {
+                            if (boat.isBoatLarge()) {
+                                if (boat.isBoatHorizontal()) {
                                     /**
                                      If the boat is large and oriented horizontally,
                                      and if the column starts at O, the boat will not be displayed.
                                      */
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 5) {
+                                    if (grid[initialRow].length - (boat.getPosition().getColumnCoordinate() - 1) > 5) {
 
                                         for (int i = 0; i < 5; i++) {
 
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                            if (initialRow == (rangeeTabConvertis[j] - 1) && (initialColumn == boat.getPosition().getColumnCoordinate())) {
+                                                grid[rangeeTabConvertis[j] - 1][boat.getPosition().getColumnCoordinate() + i] = '>';
 
-                                            } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
-                                                // }
-                                                positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
+                                            } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > boat.getPosition().getColumnCoordinate())) {
+                                                grid[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
                                             }
                                         }
                                     }
@@ -385,77 +164,72 @@ public class NavalBattleshipManager {
                                      * If the boat is large and oriented vertically,
                                      * and if the row starts at 6, the boat will not be displayed.
                                      */
-                                } else if (orientationTab[j] == 'v') {
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 5) {
+                                } else if (boat.isBoatVertical()) {
+                                    if (grid.length - (rangeeTabConvertis[j] -1) >= 5) {
                                         for (int i = 0; i < 5; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            if (initialRow == (rangeeTabConvertis[j] - 1 + i) && (initialColumn == boat.getPosition().getColumnCoordinate())) {
+                                                grid[(rangeeTabConvertis[j] - 1) + i][boat.getPosition().getColumnCoordinate()] = 'v';
                                             }
                                         }
                                     }
                                 }
-                            }else if (tailleTab[j] == 'm') {
-                                if (orientationTab[j] == 'h') {
+                            }else if (boat.isBoatMedium()) {
+                                if (boat.isBoatHorizontal()) {
 
                                     /**
                                      * If the boat is medium-sized and oriented horizontally,
                                      * and if the column starts at Q, the boat will not be displayed.
                                      */
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 3) {
+                                    if (grid[initialRow].length - (boat.getPosition().getColumnCoordinate() - 1) > 3) {
                                         for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                            if (initialRow == (rangeeTabConvertis[j] - 1) && (initialColumn == boat.getPosition().getColumnCoordinate())) {
+                                                grid[rangeeTabConvertis[j] - 1][boat.getPosition().getColumnCoordinate() + i] = '>';
                                             }
                                         }
                                     }
-
-                                } else if (orientationTab[j] == 'v') {
+                                } else if (boat.isBoatVertical()) {
 
                                     /**
                                      * If the boat is medium-sized and oriented vertically,
                                      * and if the row starts at 8, the boat will not be displayed.
                                      */
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 3) {
+                                    if (grid.length - (rangeeTabConvertis[j] -1) >= 3) {
                                         for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
+                                            if (initialRow == (rangeeTabConvertis[j] - 1 + i) && (initialColumn == boat.getPosition().getColumnCoordinate())) {
+                                                grid[(rangeeTabConvertis[j] - 1) + i][boat.getPosition().getColumnCoordinate()] = 'v';
                                             }
                                         }
                                     }
                                 }
-                            } else if (tailleTab[j] == 'p') {
-
-                                if (orientationTab[j] == 'h') {
+                            } else if (boat.isBoatSmall()) {
+                                if (boat.isBoatHorizontal()) {
                                     for (int i = 0; i < 1; i++) {
-                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                            positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
+                                        if (initialRow == (rangeeTabConvertis[j] - 1) && (initialColumn == boat.getPosition().getColumnCoordinate())) {
+                                            grid[rangeeTabConvertis[j] - 1][boat.getPosition().getColumnCoordinate() + i] = '>';
                                         }
                                     }
                                 }
-                            } else if (orientationTab[j] == 'v') {
-
+                            } else if (boat.isBoatVertical()) {
                                 for (int i = 0; i < 1; i++) {
-                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                        positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v';
+                                    if (initialRow == (rangeeTabConvertis[j] - 1 + i) && (initialColumn == boat.getPosition().getColumnCoordinate())) {
+                                        grid[rangeeTabConvertis[j] - 1 + i][boat.getPosition().getColumnCoordinate()] = 'v';
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }while(!estValide || isBoatSizeDirectionValid(tailleTab, orientationTab, rangeeTabConvertis, colonneTabConvertis));
-
             /**
              * Displaying the updated game space
              */
-            displayLetters();
+            DisplayMessage.displayLetters();
             Pep8.charo('\n');
             char c;
-            for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                Pep8.deco(rangeeInitiale + 1);
+            for (initialRow = 0; initialRow < grid.length; initialRow++) {
+                Pep8.deco(initialRow + 1);
                 Pep8.charo('|');
-                for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-                    c = positionDesBateau[rangeeInitiale][colonneInitiale];
+                for (initialColumn = 0; initialColumn < grid[initialRow].length; initialColumn++) {
+                    c = grid[initialRow][initialColumn];
 
                     Pep8.charo(c);
 
@@ -466,182 +240,53 @@ public class NavalBattleshipManager {
             }
 
             /**
-             * The following code snippet will display a message asking the player to enter shots.
-             */
-            char  espaceEntreCoup;
-            char []colonneFeu = new char[1000];
-            int [] colonneFeuConvertis = new int [1000];
-            char []rangeeFeu = new char [1000];
-            int [] rangeeFeuConvertis = new int [1000];
-
-            /**
              * Verification of the entered shots.
              */
+
             do{
                 Pep8.charo('\n');
-                displayTakeShotMsg();
-                estValide=true;
+                boolean isShotsInputValid;
+                String shotsInput;
+
+                do {
+                    DisplayMessage.displayTakeShotMsg();
+                    shotsInput = scanner.nextLine();
+                    isShotsInputValid = isUserInputValid(shotsInput, "^[A-R][1-9]$");
+                }while (!isShotsInputValid);
+
+                ShotManager shotManager = new ShotManager();
+                shotManager.constructShots(shotsInput);
+                List<Shot> shots = shotManager.getShots();
 
                 do{
-                    colonneFeu[k] = Pep8.chari();
-                    if (!isColumnLetterValid(colonneFeu[k])){
-                        estValide = false;
-                    }
-                    rangeeFeu[k] = Pep8.chari() ;
-                    if (!isNbrInRange(rangeeFeu[k])) {
-                        estValide = false;
-                    }
+                    isBoatDestroyed(grid, boats, shots);
+                }while (!stillHasBoat(grid));
 
-                    if(!estValide){
-                        k=0;
-                    }else{
-                        k++;}
-
-                    espaceEntreCoup = Pep8.chari();
-
-                }while(espaceEntreCoup==' ');
-
-                for (j = 0; j < k; j++) {
-
-                    /**
-                     * Conversion of characters to integers
-                     */
-                    colonneFeuConvertis[j] = (int) colonneFeu[j] - 65;
-                    Pep8.charo('\n');
-
-                    rangeeFeuConvertis[j] = (int) rangeeFeu[j] - 48;
-                    Pep8.charo('\n');
-
-                    /**
-                     The following code is supposed to display the updated game
-                     the position of the boats & the fired shots
-                     */
-                    displayLetters();
-                    Pep8.charo('\n');
-
-                    for (rangeeInitiale = 0; rangeeInitiale < positionDesBateau.length; rangeeInitiale++) {
-                        Pep8.deco(rangeeInitiale + 1);
-                        Pep8.charo('|');
-
-                        for (colonneInitiale = 0; colonneInitiale < positionDesBateau[rangeeInitiale].length; colonneInitiale++) {
-
-                            /**
-                             * When the coordinates of the initial boat equal the coordinates of the entered position,
-                             * a coordinate of the initial boat is defined by the row number and column number,
-                             * and a coordinate of the boat position is defined by the row number and column number.
-                             */
-                            if (tailleTab[j] == 'g') {
-                                if (orientationTab[j] == 'h') {
-
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 5) {
-
-                                        for (int i = 0; i < 5; i++) {
-
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-
-                                            } else if ((rangeeTabConvertis[j] == rangeeTabConvertis[j + 1]) && (colonneTabConvertis[j + 1] > colonneTabConvertis[j])) {
-
-                                                positionDesBateau[rangeeTabConvertis[j + 1]][colonneTabConvertis[j + 1] + i] = ' ';
-                                            }
-                                        }
-                                    }
-                                } else if (orientationTab[j] == 'v') {
-
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 5) {
-                                        for (int i = 0; i < 5; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
-                                            }
-                                        }
-                                    }
-                                }
-                            }else if (tailleTab[j] == 'm') {
-
-                                if (orientationTab[j] == 'h') {
-                                    if (positionDesBateau[rangeeInitiale].length - (colonneTabConvertis[j] - 1) > 3) {
-
-                                        for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                            }
-                                        }
-                                    }
-                                } else if (orientationTab[j] == 'v') {
-                                    if (positionDesBateau.length - (rangeeTabConvertis[j] -1) >= 3) {
-                                        for (int i = 0; i < 3; i++) {
-                                            if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                                positionDesBateau[(rangeeTabConvertis[j] - 1) + i][colonneTabConvertis[j]] = 'v';
-                                            }
-                                        }
-                                    }
-                                }
-                            } else if (tailleTab[j] == 'p') {
-
-                                if (orientationTab[j] == 'h') {
-
-                                    for (int i = 0; i < 1; i++) {
-                                        if (rangeeInitiale == (rangeeTabConvertis[j] - 1) && (colonneInitiale == colonneTabConvertis[j])) {
-                                            positionDesBateau[rangeeTabConvertis[j] - 1][colonneTabConvertis[j] + i] = '>';
-                                        }
-                                    }
-                                }
-                            } else if (orientationTab[j] == 'v') {
-
-                                for (int i = 0; i < 1; i++) {
-                                    if (rangeeInitiale == (rangeeTabConvertis[j] - 1 + i) && (colonneInitiale == colonneTabConvertis[j])) {
-                                        positionDesBateau[rangeeTabConvertis[j] - 1 + i][colonneTabConvertis[j]] = 'v';
-                                    }
-                                }
-                            }
-
-                            /**
-                             * Condition verifying if the coordinates of the shots fired are at the same place as the positions of the boats.
-                             **/
-
-                            if(isBoatDestroyed(positionDesBateau, rangeeFeuConvertis, colonneFeuConvertis, j)){
-
-                            } else {
-                                positionDesBateau[rangeeFeuConvertis[j] - 1][colonneFeuConvertis[j]] = 'o';
-                            }
-
-                            /**
-                             * le char c est '~'
-                             */
-                            c = positionDesBateau[rangeeInitiale][colonneInitiale];
-
-                            Pep8.charo(c);
-                            Pep8.charo(' ');
-                        }
-                        Pep8.charo('|');
-                        Pep8.charo('\n');
-                    }
-                }
-                /**
-                 * We redo the execution of the program if the entered shots are invalid
-                 * or if there are still boats not destroyed.
-                 */
-            }while(!estValide || stillHasBoat(positionDesBateau));
+            }while(stillHasBoat(grid));
 
             /**
              * To quit the game, enter a character other than <Enter> and then press <Enter>.
              */
-            for(rangeeInitiale=0; rangeeInitiale<positionDesBateau.length; rangeeInitiale++){
-                for(colonneInitiale=0; colonneInitiale<positionDesBateau[rangeeInitiale].length; colonneInitiale++){
-                    positionDesBateau[rangeeInitiale][colonneInitiale]='~';
+            for(initialRow=0; initialRow<grid.length; initialRow++){
+                for(initialColumn=0; initialColumn<grid[initialRow].length; initialColumn++){
+                    grid[initialRow][initialColumn]='~';
                 }
             }
 
             Pep8.charo('\n');
-            displayExitMsg();
-            charQuitter = Pep8.chari();
-            if(charQuitter=='\n') {
-                n = 0;
-                k=0;
+            DisplayMessage.displayExitMsg();
+            exitCharacter = Pep8.chari();
+        } while (exitCharacter == '\n');
+    }
+
+    private static boolean isUserInputValid(String input, String requiredPattern) {
+        String[] sizeDirections = input.split(" ");
+        Pattern pattern = Pattern.compile(requiredPattern);
+        for (String s: sizeDirections) {
+            if(!pattern.matcher(s).matches()){
+                return false;
             }
-        } while (charQuitter == '\n');
+        }
+        return true;
     }
 }
-
-
-
