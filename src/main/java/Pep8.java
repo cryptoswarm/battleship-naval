@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  */
 public class Pep8 {
-	private static Scanner sc = new Scanner(System.in);
+	private static final Scanner sc = new Scanner(System.in);
 
 	/** DECI: Read the next integer from the input. */
 	public static int deci() {
