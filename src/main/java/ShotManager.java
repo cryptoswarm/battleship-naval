@@ -19,7 +19,8 @@ public class ShotManager {
     public void constructShots(String validInput) {
         String[] shotsCoordiantes = validInput.split(" ");
         for (String s: shotsCoordiantes) {
-            Shot shot = new Shot(new ShotCoordinate((int)s.charAt(0) - 65, (int)s.charAt(1) - 48));
+            Shot shot = new Shot(new Coordinate((int)s.charAt(1) - 48 -1,
+                                            (int)s.charAt(0) - 65));
 
             this.addShot(shot);
         }

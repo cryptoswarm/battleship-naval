@@ -1,32 +1,32 @@
 import java.util.Objects;
 
-public abstract class Coordinate {
-    private int x;
-    private int y;
+public class Coordinate {
+    private int startX;
+    private int startY;
 
-    public Coordinate(int columnCoordinate, int rowCoordinate) {
-        this.y = columnCoordinate;
-        this.x = rowCoordinate;
+    public Coordinate(int rowCoordinate, int columnCoordinate) {
+        this.startX = rowCoordinate;
+        this.startY = columnCoordinate;
     }
 
     public int getRowCoordinate() {
-        return x;
+        return startX;
     }
 
     public int getColumnCoordinate() {
-        return y;
+        return startY;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Coordinate)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Coordinate that = (Coordinate) o;
-        return x == that.x && y == that.y;
+        return startX == that.startX && startY == that.startY;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(startX, startY);
     }
 }

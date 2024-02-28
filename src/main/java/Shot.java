@@ -1,11 +1,11 @@
 public class Shot {
-    private ShotCoordinate shotCoordinate;
+    private Coordinate shotCoordinate;
 
-    public Shot(ShotCoordinate shotCoordinate) {
+    public Shot(Coordinate shotCoordinate) {
         this.shotCoordinate = shotCoordinate;
     }
 
-    public ShotCoordinate getShotCoordinate() {
+    public Coordinate getShotCoordinate() {
         return shotCoordinate;
     }
 }

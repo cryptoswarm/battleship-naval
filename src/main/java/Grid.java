@@ -1,37 +1,52 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Grid {
 
-    public static char[][] displayInitialGrid(int row, int column, char gridFilledChar){
-        DisplayMessage.displayWelcomeMsg();
-        DisplayMessage.displayLetters();
-        Pep8.charo('\n');
+    private final int rowLength;
+    private final int columnLength;
+    private final Map<Coordinate, Character> grid;
+    private final char initialContent;
 
-        return createInitialGrid(row, column, gridFilledChar);
+    public Grid(int rowLength, int columnLength, char initialContent) {
+        this.rowLength = rowLength;
+        this.columnLength = columnLength;
+        this.grid = new HashMap<>();
+        this.initialContent = initialContent;
     }
 
-    /**
-     * @param row row of the array
-     * @param column column of the array
-     * @param gridFilledChar the character '~'
-     * @return prints the game board array
-     */
-    private static char [][] createInitialGrid(int row, int column, char gridFilledChar){
-        char [][]situationInitiale = new char [row][column];
+    public void createInitialGrid(){
 
-        situationInitiale[row-1][column-1] = gridFilledChar;
+        for(int i=0; i< this.rowLength; i++ ){
+            for(int j=0; j< this.columnLength; j++){
+                this.grid.put(new Coordinate(i, j), this.initialContent);
+            }
+        }
+    }
 
-        for (row = 0; row < situationInitiale.length; row++) {
-            Pep8.deco(row + 1);
+    public void displayGrid(){
+        DisplayMessage.displayLetters();
+        Pep8.charo('\n');
+        for (int i=0; i < this.rowLength; i++) {
+            Pep8.deco(i + 1);
 
             Pep8.charo('|');
 
-            for (column = 0; column < (situationInitiale[row].length); column++) {
+            for (int j=0; j < this.columnLength; j++) {
 
-                Pep8.charo(situationInitiale[row][column] =gridFilledChar);
+                Pep8.charo(grid.get(new Coordinate(i, j)));
                 Pep8.charo(' ');
             }
             Pep8.charo('|');
             Pep8.charo('\n');
-        };
-        return situationInitiale;
+        }
+    }
+
+    public void replaceContent(Coordinate coordinate, char replacement){
+        this.grid.replace(coordinate, replacement);
+    }
+
+    public char getContentByCoordinate(Coordinate coordinate){
+        return this.grid.get(coordinate);
     }
 }
